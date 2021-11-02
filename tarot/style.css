@@ -1,0 +1,59 @@
+:root {
+  --teal: #178287;
+  --light-teal: #9CD1D4;
+  --peach: #F79C75;
+  --light-peach: #F1CEBF;
+  --purple: #855279;
+  --light-purple: #B575BB;
+  --gold: #AC8E4C;
+  --yellow: #FFD373;
+  --blue: #1B6383;
+  --light-blue: #A1C8DA;
+  --gray: #828282;
+
+  --sans: 'Barlow Condensed', Tahoma, sans-serif;
+  --serif: 'IBM Plex Serif', Georgia, serif;
+
+  --foreground: black;
+  --background: white;
+  --accent: var(--teal);
+
+  font-family: var(--sans);
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 3fr 300px;
+  grid-template-areas: "preview config";
+  width: 100vw;
+  height: 100vh;
+}
+
+.preview {
+  grid-area: preview;
+  padding: 20px;
+  background: radial-gradient(#555, black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview canvas {
+  max-width: 100%;
+  aspect-ratio: 1200 / 628;
+  box-shadow: 0 12px 12px black;
+}
+
+.form {
+  grid-area: config;
+  padding: 20px;
+}
+
+.form form * {
+  margin: 16px 0;
+}

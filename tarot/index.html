@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Tarot : Chalkbeat's social card generator</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed&family=IBM+Plex+Serif&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+
+    <main>
+      <section class="preview">
+        <canvas width=1200 height=628></canvas>
+      </section>
+      <section class="form">
+
+        <select class="template">
+          <option value="null" selected disabled>Select a template</option>
+          <option value="quote">Quote</option>
+          <option value="breaking">Breaking news alert</option>
+          <option value="headline">Headline</option>
+        </select>
+
+        <div class="theme-group">
+
+          <input type="radio" name="theme" value="chalkbeat" id="theme-chalkbeat" checked=checked>
+          <label for="theme-chalkbeat"><theme-icon theme="chalkbeat"></theme-icon></label>
+
+          <input type="radio" name="theme" value="peach" id="theme-peach">
+          <label for="theme-peach"><theme-icon theme="peach"></theme-icon></label>
+
+          <input type="radio" name="theme" value="somber" id="theme-somber">
+          <label for="theme-somber"><theme-icon theme="somber"></theme-icon></label>
+
+          <input type="radio" name="theme" value="purple" id="theme-purple">
+          <label for="theme-purple"><theme-icon theme="purple"></theme-icon></label>
+
+        </div>
+
+        <form>
+          Select a template above to customize your card.
+        </form>
+
+        <div class="output">
+          Once you're ready, right-click the preview and choose "save image as...".
+        </div>
+
+      </section>
+    </main>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
