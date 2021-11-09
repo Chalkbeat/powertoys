@@ -1,14 +1,11 @@
 import Brush from "./brush.js";
+import { getThemed } from "../defs.js";
 
 class LogoBrush extends Brush {
   static template = `
 <label>Logo</logo>
-<select as="color">
-  <option selected value="dark">Dark</option>
-  <option value="light">Light</option>
-</select>
 <select as="bureau">
-  <option value="">No bureau</option>
+  <option value="">No bureau, only logo</option>
   <option>Chicago</option>
   <option>Colorado</option>
   <option>Detroit</option>
@@ -24,27 +21,21 @@ class LogoBrush extends Brush {
     super();
     this.x = 0;
     this.y = 0;
+    this.color = 3;
 
-    this.logos = {};
+    this.image = new Image();
+    this.image.src = "./assets/logo-dark.png";
+    this.image.onload = () => this.dispatch("update");
 
     this.buffer = document.createElement("canvas");
-
-    for (var color of ["dark", "light"]) {
-      var logo = new Image();
-      logo.src = `./assets/logo-${color}.png`;
-      logo.onload = () => this.dispatch("update");
-      this.logos[color] = logo;
-    }
-
-    this.elements.color.addEventListener("change", () => this.dispatch("update"));
     this.elements.bureau.addEventListener("change", () => this.dispatch("update"));
   }
 
-  static observedAttributes = ["x", "y", "theme"];
+  static observedAttributes = ["x", "y", "color"];
   attributeChangedCallback(attr, was, value) {
     switch (attr) {
-      case "theme":
-        this.elements.color.value = value;
+      case "color":
+        this.color = value;
         break;
 
       default:
@@ -85,11 +76,34 @@ class LogoBrush extends Brush {
 
   draw(context, config) {
     var layout = this.getLayout(context);
-    var color = this.elements.color.value;
-    var logo = this.logos[color];
-    context.drawImage(logo, layout.x, layout.y, 124, 40);
+    var color = getThemed(config.theme, this.color);
+
+    // convert our color into rgb
+    // we'll hack the browser to make a fake element and get this temporarily
+    var temp = document.createElement("div");
+    temp.style.background = color;
+    document.body.appendChild(temp);
+    var computed = window.getComputedStyle(temp);
+    var rgb = computed.background.match(/\d+/g);
+    temp.remove();
+    var [r, g, b] = rgb.map(Number);
+
+    // apply to the buffer
+    this.buffer.width = 124;
+    this.buffer.height = 40;
+    var bufferContext = this.buffer.getContext("2d");
+    bufferContext.drawImage(this.image, 0, 0, 124, 40);
+    var bitmap = bufferContext.getImageData(0, 0, 124, 40);
+    for (var i = 0; i < bitmap.data.length; i += 4) {
+      bitmap.data[i] = r;
+      bitmap.data[i+1] = g;
+      bitmap.data[i+2] = b;
+    }
+    bufferContext.putImageData(bitmap, 0, 0);
+    context.drawImage(this.buffer, layout.x, layout.y);
+
     if (layout.bureau) {
-      context.fillStyle = color == "dark" ? "#333" : "white";
+      context.fillStyle = color;
       context.font = `italic 24px "Barlow Condensed"`;
       context.textBaseline = "top";
       context.fillText(layout.bureau, layout.textX, layout.textY);

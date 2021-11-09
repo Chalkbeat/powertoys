@@ -65,8 +65,6 @@ class ImageBrush extends Brush {
       // we'll hack the browser to make a fake element and get this temporarily
       var temp = document.createElement("div");
       temp.style.background = getThemed(config.theme, this.recolor);
-      temp.style.width = "10px";
-      temp.style.height = "10px";
       document.body.appendChild(temp);
       var computed = window.getComputedStyle(temp);
       var rgb = computed.background.match(/\d+/g);
