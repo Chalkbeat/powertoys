@@ -4,6 +4,12 @@ class GroupedTextBrush extends Brush {
 
   static template = `<slot as="slot"></slot>`;
 
+  static observedAttributes = ["x", "y", "dx", "dy"];
+
+  attributeChangedCallback(attr, was, value) {
+    this[attr] = Number(value);
+  }
+
   getLayout(context) {
     // find child bounds
     var children = this.elements.slot.assignedElements();
@@ -14,9 +20,11 @@ class GroupedTextBrush extends Brush {
 
     // find own bounds
     var anchor = this.getAttribute("anchor") || "middle";
-    var normalY = Number(this.getAttribute("y") || 0);
-    var normalX = Number(this.getAttribute("x") || 0);
+    var normalY = this.y || 0;
+    var normalX = this.x || 0;
     var [x, y] = this.denormalize(context.canvas, [normalX, normalY]);
+    x += this.dx || 0;
+    y += this.dy || 0;
     var top = anchor == "middle" ? y - (height * .5):
       anchor == "bottom" ? y - height : y;
     var bottom = top + height;

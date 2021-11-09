@@ -27,6 +27,8 @@ class LogoBrush extends Brush {
 
     this.logos = {};
 
+    this.buffer = document.createElement("canvas");
+
     for (var color of ["dark", "light"]) {
       var logo = new Image();
       logo.src = `./assets/logo-${color}.png`;

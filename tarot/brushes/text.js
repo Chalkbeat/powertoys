@@ -19,6 +19,10 @@ class TextBrush extends Brush {
   display: block;
 }
 
+:host([noform]) textarea{
+  display: none;
+}
+
 textarea {
   font-family: var(--serif);
   width: 100%;
@@ -117,7 +121,17 @@ textarea {
     context.font = `${formatting.join(" ")} ${size}px ${font}`;
     var lines = [];
     var text = input.value.trim();
+    if (this.hasAttribute("quoted")) {
+      text = "“" + text + "”";
+    }
     var words = text.split(/\s+/) || "";
+    // join the last two words to prevent orphans
+    if (words.length > 3) {
+      var last = words.pop();
+      var pen = words.pop();
+      words.push(pen + " " + last);
+    }
+
     var buffer = words.shift();
     while (words.length) {
       var word = words.shift();

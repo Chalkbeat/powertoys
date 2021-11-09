@@ -17,10 +17,9 @@ export var colors = {
 // you can also specify a color directly instead of an index
 // [ dark, light, accent, text ]
 export var themes = {
-  chalkbeat: [colors.teal, colors.lightTeal, colors.yellow, colors.black ],
-  somber: [ colors.black, colors.gray, colors.teal, colors.black ],
-  purple: [ colors.purple, colors.lightPurple, colors.yellow, colors.teal ],
-  peach: [ colors.peach, colors.lightPeach, colors.yellow, colors.purple ]
+  chalkbeat: ["white", colors.teal, colors.teal, colors.black ],
+  somber: [ colors.black, colors.gray, colors.teal, "white" ],
+  purple: [ colors.purple, colors.yellow, colors.yellow, "white" ]
 }
 
 export function getThemed(theme, shade) {
@@ -43,5 +42,6 @@ async function getTemplate(path) {
 }
 
 export var templates = {
-  test: await getTemplate("test")
+  quote: await getTemplate("quote"),
+  breaking: await getTemplate("breaking")
 };

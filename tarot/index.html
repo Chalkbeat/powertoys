@@ -17,20 +17,19 @@
       </section>
       <section class="form">
 
+        <label>Select a template:</label>
         <select class="template">
-          <option value="null" selected disabled>Select a template</option>
-          <option value="quote">Quote</option>
-          <option value="breaking">Breaking news alert</option>
-          <option value="headline">Headline</option>
+          <option selected value="quote">Quote</option>
+          <!-- <option value="quotePhotoLeft">Quote - Photo Left</option>
+          <option value="quotePhotoRight">Quote - Photo Right</option> -->
+          <option value="breaking">Breaking headline</option>
         </select>
 
+        Select a theme:
         <div class="theme-group">
 
           <input type="radio" name="theme" value="chalkbeat" id="theme-chalkbeat" checked=checked>
           <label for="theme-chalkbeat"><theme-icon theme="chalkbeat"></theme-icon></label>
-
-          <input type="radio" name="theme" value="peach" id="theme-peach">
-          <label for="theme-peach"><theme-icon theme="peach"></theme-icon></label>
 
           <input type="radio" name="theme" value="somber" id="theme-somber">
           <label for="theme-somber"><theme-icon theme="somber"></theme-icon></label>
@@ -45,7 +44,7 @@
         </form>
 
         <div class="output">
-          Once you're ready, right-click the preview and choose "save image as...".
+          <button class="download">Download image</button>
         </div>
 
       </section>

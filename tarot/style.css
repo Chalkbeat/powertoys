@@ -57,3 +57,36 @@ main {
 .form form * {
   margin: 16px 0;
 }
+
+.theme-group input {
+  position: absolute;
+  left: -10000px;
+}
+
+.theme-group label {
+  opacity: .2;
+}
+
+.theme-group input:checked + label {
+  opacity: 1;
+}
+
+.form button {
+  border: none;
+  color: white;
+  font-family: inherit;
+  font-size: 24px;
+  background: var(--teal);
+  padding: 10px 20px;
+  display; block;
+  margin: 20px auto;
+  transition: box-shadow .4s linear;
+  box-shadow: 0 4px 16px -8px #0008;
+}
+
+.form button:hover, .form button:focus {
+  box-shadow: 0 16px 24px -12px #0008;
+  outline: 1px solid var(--light-teal);
+  cursor: pointer;
+}
+

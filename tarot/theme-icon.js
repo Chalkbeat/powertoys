@@ -6,10 +6,16 @@ class ThemeIcon extends HTMLElement {
     var shadow = this.attachShadow({ mode: "open" });
     shadow.innerHTML = `
 <style>
+:host {
+  display: inline-block;
+  cursor: pointer;
+}
+
 .block {
   display: inline-block;
   width: var(--block-size, 15px);
   height: var(--block-size, 15px);
+  border: 1px solid #555;
 }
 </style>
     `;

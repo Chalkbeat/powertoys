@@ -1,4 +1,5 @@
 import Brush from "./brush.js";
+import { getThemed } from "../defs.js";
 
 class ImageBrush extends Brush {
 
@@ -9,9 +10,10 @@ class ImageBrush extends Brush {
     this.y = 0;
     this.width = 0;
     this.height = 0;
+    this.buffer = document.createElement("canvas");
   }
 
-  static observedAttributes = ["x", "y", "src", "follows", "width", "height"];
+  static observedAttributes = ["x", "y", "src", "follows", "width", "height", "recolor"];
   attributeChangedCallback(attr, was, value) {
     switch (attr) {
       case "src":
@@ -20,9 +22,14 @@ class ImageBrush extends Brush {
         this.image.onload = () => this.dispatch("update");
         break;
 
+      // strings
       case "follows":
-        this.follows = value;
+      case "recolor":
+        this[attr] = value;
         break;
+
+      // boolean
+        // this[attr] = typeof value != "undefined";
 
       default:
         this[attr] = Number(value);
@@ -53,7 +60,35 @@ class ImageBrush extends Brush {
   draw(context, config) {
     if (!this.image) return;
     var layout = this.getLayout(context);
-    context.drawImage(this.image, layout.x, layout.y, layout.width, layout.height);
+    if (this.recolor && layout.height) {
+      // convert our color into rgb
+      // we'll hack the browser to make a fake element and get this temporarily
+      var temp = document.createElement("div");
+      temp.style.background = getThemed(config.theme, this.recolor);
+      temp.style.width = "10px";
+      temp.style.height = "10px";
+      document.body.appendChild(temp);
+      var computed = window.getComputedStyle(temp);
+      var rgb = computed.background.match(/\d+/g);
+      temp.remove();
+      var [r, g, b] = rgb.map(Number);
+
+      // apply to the buffer
+      this.buffer.width = layout.width;
+      this.buffer.height = layout.height;
+      var bufferContext = this.buffer.getContext("2d");
+      bufferContext.drawImage(this.image, 0, 0, layout.width, layout.height);
+      var bitmap = bufferContext.getImageData(0, 0, layout.width, layout.height);
+      for (var i = 0; i < bitmap.data.length; i += 4) {
+        bitmap.data[i] = r;
+        bitmap.data[i+1] = g;
+        bitmap.data[i+2] = b;
+      }
+      bufferContext.putImageData(bitmap, 0, 0);
+      context.drawImage(this.buffer, layout.x, layout.y);
+    } else {
+      context.drawImage(this.image, layout.x, layout.y, layout.width, layout.height);
+    }
   }
 
 }
