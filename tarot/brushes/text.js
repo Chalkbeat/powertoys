@@ -75,7 +75,7 @@ textarea {
     var { input } = this.elements;
     var {
       anchor = "top left",
-      color = 3,
+      color = "text",
       size = 24,
       font = "Barlow Condensed",
       follows

@@ -1,5 +1,5 @@
 import Brush from "./brush.js";
-import { getThemed } from "../defs.js";
+import { getThemed, getThemedRGB } from "../defs.js";
 
 class ImageBrush extends Brush {
 
@@ -61,15 +61,7 @@ class ImageBrush extends Brush {
     if (!this.image) return;
     var layout = this.getLayout(context);
     if (this.recolor && layout.height) {
-      // convert our color into rgb
-      // we'll hack the browser to make a fake element and get this temporarily
-      var temp = document.createElement("div");
-      temp.style.background = getThemed(config.theme, this.recolor);
-      document.body.appendChild(temp);
-      var computed = window.getComputedStyle(temp);
-      var rgb = computed.background.match(/\d+/g);
-      temp.remove();
-      var [r, g, b] = rgb.map(Number);
+      var [r, g, b] = getThemedRGB(config.theme, this.recolor);
 
       // apply to the buffer
       this.buffer.width = layout.width;

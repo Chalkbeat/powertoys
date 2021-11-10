@@ -32,7 +32,7 @@ class RectangleBrush extends Brush {
   draw(context, config) {
     var { canvas } = context;
     var { theme } = config;
-    var { fill = 0 } = this;
+    var { fill = "background" } = this;
     var { top, left, width, height } = this.getLayout(context);
     context.fillStyle = getThemed(theme, fill);
     context.fillRect(top, left, width, height);

@@ -1,5 +1,5 @@
 import Brush from "./brush.js";
-import { getThemed } from "../defs.js";
+import { getThemed, getThemedRGB } from "../defs.js";
 
 class LogoBrush extends Brush {
   static template = `
@@ -21,7 +21,7 @@ class LogoBrush extends Brush {
     super();
     this.x = 0;
     this.y = 0;
-    this.color = 3;
+    this.color = "text";
 
     this.image = new Image();
     this.image.src = "./assets/logo-dark.png";
@@ -77,16 +77,7 @@ class LogoBrush extends Brush {
   draw(context, config) {
     var layout = this.getLayout(context);
     var color = getThemed(config.theme, this.color);
-
-    // convert our color into rgb
-    // we'll hack the browser to make a fake element and get this temporarily
-    var temp = document.createElement("div");
-    temp.style.background = color;
-    document.body.appendChild(temp);
-    var computed = window.getComputedStyle(temp);
-    var rgb = computed.background.match(/\d+/g);
-    temp.remove();
-    var [r, g, b] = rgb.map(Number);
+    var [r, g, b] = getThemedRGB(config.theme, this.color);
 
     // apply to the buffer
     this.buffer.width = 124;

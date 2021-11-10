@@ -22,9 +22,37 @@ export var themes = {
   purple: [ colors.purple, colors.yellow, colors.yellow, "white" ]
 }
 
+var themeIndices = {
+  background: 0,
+  dark: 0,
+  light: 1,
+  accent: 2,
+  text: 3
+}
+
 export function getThemed(theme, shade) {
   var palette = themes[theme];
+  shade = shade in themeIndices ? themeIndices[shade] : shade;
   return palette[shade] || shade;
+}
+
+var swatch = document.createElement("canvas");
+swatch.width = 1;
+swatch.height = 1;
+var context = swatch.getContext("2d");
+var rgbCache = {};
+
+export function getThemedRGB(theme, shade) {
+  var background = getThemed(theme, shade);
+  if (!rgbCache[background]) {
+    // convert our color into rgb
+    // we'll use canvas to take advantage of browser support for color names
+    context.fillStyle = background;
+    context.fillRect(0, 0, 1, 1);
+    var { data } = context.getImageData(0, 0, 1, 1);
+    rgbCache[background] = data.slice();
+  }
+  return rgbCache[background];
 }
 
 /*
