@@ -10,16 +10,18 @@ export var colors = {
   blue: "#1B6383",
   lightBlue: "#A1C8DA",
   gray: "#828282",
-  black: "#333333"
+  black: "#333333",
+  white: "#F8F8F8"
 };
 
 // themes are specified as an array of items, typically in these categories
 // you can also specify a color directly instead of an index
 // [ dark, light, accent, text ]
 export var themes = {
-  chalkbeat: ["white", colors.teal, colors.teal, colors.black ],
-  somber: [ colors.black, colors.gray, colors.teal, "white" ],
-  purple: [ colors.purple, colors.yellow, colors.yellow, "white" ]
+  chalkbeat: [ colors.white, colors.teal, colors.teal, colors.black ],
+  peach: [ colors.peach, colors.yellow, colors.black, colors.black ],
+  somber: [ colors.black, colors.gray, colors.teal, colors.white ],
+  purple: [ colors.purple, colors.yellow, colors.yellow, colors.white ]
 }
 
 var themeIndices = {
