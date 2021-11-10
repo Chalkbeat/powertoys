@@ -1,7 +1,7 @@
 import Brush from "./brush.js";
 import { getThemed, getThemedRGB } from "../defs.js";
 
-class ImageBrush extends Brush {
+export default class ImageBrush extends Brush {
 
   constructor() {
     super();
@@ -57,24 +57,27 @@ class ImageBrush extends Brush {
     return { x, left: x, y, top: y, bottom: y + height, width, height }
   }
 
+  tintBuffer(image, width, height, [r, g, b]) {
+    // apply to the buffer
+    this.buffer.width = width;
+    this.buffer.height = height;
+    var bufferContext = this.buffer.getContext("2d");
+    bufferContext.drawImage(this.image, 0, 0, width, height);
+    var bitmap = bufferContext.getImageData(0, 0, width, height);
+    for (var i = 0; i < bitmap.data.length; i += 4) {
+      bitmap.data[i] = r;
+      bitmap.data[i+1] = g;
+      bitmap.data[i+2] = b;
+    }
+    bufferContext.putImageData(bitmap, 0, 0);
+  }
+
   draw(context, config) {
     if (!this.image) return;
     var layout = this.getLayout(context);
     if (this.recolor && layout.height) {
-      var [r, g, b] = getThemedRGB(config.theme, this.recolor);
-
-      // apply to the buffer
-      this.buffer.width = layout.width;
-      this.buffer.height = layout.height;
-      var bufferContext = this.buffer.getContext("2d");
-      bufferContext.drawImage(this.image, 0, 0, layout.width, layout.height);
-      var bitmap = bufferContext.getImageData(0, 0, layout.width, layout.height);
-      for (var i = 0; i < bitmap.data.length; i += 4) {
-        bitmap.data[i] = r;
-        bitmap.data[i+1] = g;
-        bitmap.data[i+2] = b;
-      }
-      bufferContext.putImageData(bitmap, 0, 0);
+      var components = getThemedRGB(config.theme, this.recolor);
+      this.tintBuffer(this.image, layout.width, layout.height, components)
       context.drawImage(this.buffer, layout.x, layout.y);
     } else {
       context.drawImage(this.image, layout.x, layout.y, layout.width, layout.height);

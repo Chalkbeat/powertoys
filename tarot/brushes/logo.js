@@ -1,7 +1,7 @@
-import Brush from "./brush.js";
+import ImageBrush from "./image.js";
 import { getThemed, getThemedRGB } from "../defs.js";
 
-class LogoBrush extends Brush {
+class LogoBrush extends ImageBrush {
   static template = `
 <label>Logo</logo>
 <select as="bureau">
@@ -77,20 +77,8 @@ class LogoBrush extends Brush {
   draw(context, config) {
     var layout = this.getLayout(context);
     var color = getThemed(config.theme, this.color);
-    var [r, g, b] = getThemedRGB(config.theme, this.color);
-
-    // apply to the buffer
-    this.buffer.width = 124;
-    this.buffer.height = 40;
-    var bufferContext = this.buffer.getContext("2d");
-    bufferContext.drawImage(this.image, 0, 0, 124, 40);
-    var bitmap = bufferContext.getImageData(0, 0, 124, 40);
-    for (var i = 0; i < bitmap.data.length; i += 4) {
-      bitmap.data[i] = r;
-      bitmap.data[i+1] = g;
-      bitmap.data[i+2] = b;
-    }
-    bufferContext.putImageData(bitmap, 0, 0);
+    var rgb = getThemedRGB(config.theme, this.color);
+    this.tintBuffer(this.image, 124, 40, rgb);
     context.drawImage(this.buffer, layout.x, layout.y);
 
     if (layout.bureau) {
