@@ -113,7 +113,7 @@ class PhotoBrush extends Brush {
       context.clip();
       context.drawImage(this.image, x, y, width, height);
       context.restore();
-      context.globalCompositeOperation = "source-atop";
+      context.globalCompositeOperation = "source-over";
     }
   }
 }
