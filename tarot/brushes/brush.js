@@ -17,6 +17,7 @@ export default class Brush extends HTMLElement {
         this[method] = this[method].bind(this);
       }
     }
+    this.invalidate = this.invalidate.bind(this);
   }
 
   draw(context) {
@@ -26,6 +27,10 @@ export default class Brush extends HTMLElement {
   dispatch(event, detail = {}) {
     var e = new CustomEvent(event, { bubbles: true, composed: true, detail });
     this.dispatchEvent(e);
+  }
+
+  invalidate() {
+    this.dispatch("update");
   }
 
   getNumeric(attribute) {

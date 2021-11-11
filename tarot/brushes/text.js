@@ -35,7 +35,7 @@ textarea {
 
   constructor() {
     super();
-    this.elements.input.addEventListener("input", () => this.dispatch("update"));
+    this.elements.input.addEventListener("input", this.invalidate);
   }
 
   static observedAttributes = [
@@ -59,7 +59,7 @@ textarea {
       default:
         this[attr] = value;
     }
-    this.dispatch("update");
+    this.invalidate();
   }
 
   get value() {

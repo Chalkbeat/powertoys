@@ -65,6 +65,7 @@ import "./brushes/image.js";
 import "./brushes/logo.js";
 import "./brushes/rectangle.js";
 import "./brushes/text.js";
+import "./brushes/photo.js";
 
 async function getTemplate(path) {
   var response = await fetch(`templates/${path}.html`);
@@ -73,5 +74,7 @@ async function getTemplate(path) {
 
 export var templates = {
   quote: await getTemplate("quote"),
-  breaking: await getTemplate("breaking")
+  breaking: await getTemplate("breaking"),
+  quotePhotoLeft: await getTemplate("quotePhotoLeft"),
+  quotePhotoRight: await getTemplate("quotePhotoRight")
 };

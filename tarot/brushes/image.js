@@ -19,7 +19,7 @@ export default class ImageBrush extends Brush {
       case "src":
         this.image = new Image();
         this.image.src = value;
-        this.image.onload = () => this.dispatch("update");
+        this.image.onload = this.invalidate;
         break;
 
       // strings
@@ -34,7 +34,7 @@ export default class ImageBrush extends Brush {
       default:
         this[attr] = Number(value);
     }
-    this.dispatch("update");
+    this.invalidate();
   }
 
   getLayout(context) {

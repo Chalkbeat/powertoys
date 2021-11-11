@@ -25,10 +25,10 @@ class LogoBrush extends ImageBrush {
 
     this.image = new Image();
     this.image.src = "./assets/logo-dark.png";
-    this.image.onload = () => this.dispatch("update");
+    this.image.onload = this.invalidate;
 
     this.buffer = document.createElement("canvas");
-    this.elements.bureau.addEventListener("change", () => this.dispatch("update"));
+    this.elements.bureau.addEventListener("change", this.invalidate);
   }
 
   static observedAttributes = ["x", "y", "color"];
