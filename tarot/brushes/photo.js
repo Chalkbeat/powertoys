@@ -4,11 +4,28 @@ import { getThemed } from "../defs.js";
 class PhotoBrush extends Brush {
   
   static template = `
-<label for="photo-upload">Choose a photo:</label>
+<style>
+:host {
+  display: block;
+}
+
+.warnings {
+  display: none;
+}
+
+.warnings.shown {
+  display: block;
+  padding: 10px;
+  background: var(--peach);
+}
+</style>
+<label for="photo-upload">Photo block:</label>
 <input type="file" id="photo-upload" as="file" accept="image/*">
 
 <input id="tint-image" as="tinted" type=checkbox>
 <label for="tint-image">Tint image?</label>
+
+<div class="warnings" as="warning"></div>
   `
 
   static boundMethods = ["onUpload", "invalidate"];
@@ -66,6 +83,13 @@ class PhotoBrush extends Brush {
     context.fillStyle = getThemed(config.theme, this.tint);
     context.fillRect(layout.x, layout.y, layout.width, layout.height);
     if (this.image) {
+      // check for being too small
+      if (this.image.naturalWidth < layout.width || this.image.naturalHeight < layout.height) {
+        this.elements.warning.innerHTML = `This image is smaller than the display area, and may appear blurry when exported.`
+      } else {
+        this.elements.warning.innerHTML = `Please make sure we have the rights to publish this photo (i.e., it has been purchased on Getty or is a courtesy photo from a source).`
+      }
+      this.elements.warning.classList.add("shown");
       context.globalCompositeOperation = this.elements.tinted.checked ? "luminosity" : "source-over";
       var imageAspect = this.image.naturalWidth / this.image.naturalHeight;
       var layoutAspect = layout.width / layout.height;
