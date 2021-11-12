@@ -41,6 +41,8 @@ class PhotoBrush extends Brush {
     this.width = 1;
     this.height = 1;
     this.tint = "accent";
+    this.buffer = document.createElement("canvas");
+    this.context = this.buffer.getContext("2d");
   }
 
   persist() {
@@ -101,7 +103,8 @@ class PhotoBrush extends Brush {
         this.elements.warning.innerHTML = `Please make sure we have the rights to publish this photo (i.e., it has been purchased on Getty or is a courtesy photo from a source).`
       }
       this.elements.warning.classList.add("shown");
-      context.globalCompositeOperation = this.elements.tinted.checked ? "luminosity" : "source-over";
+      var blend = this.elements.tinted.checked ? "luminosity" : "source-over";
+      context.globalCompositeOperation = blend;
       var imageAspect = this.image.naturalWidth / this.image.naturalHeight;
       var layoutAspect = layout.width / layout.height;
       // try horizontal cover
@@ -117,13 +120,13 @@ class PhotoBrush extends Brush {
       var yOffset = (height - layout.height) / 2;
       var x = layout.x - xOffset;
       var y = layout.y - yOffset;
-      // set the clip rect
-      context.save();
-      context.beginPath();
-      context.rect(layout.x, layout.y, layout.width, layout.height);
-      context.clip();
-      context.drawImage(this.image, x, y, width, height);
-      context.restore();
+      // manually clip using the internal canvas
+      this.buffer.width = layout.width;
+      this.buffer.height = layout.height;
+      this.context.drawImage(this.image, -xOffset, -yOffset, width, height);
+      // blit to the main canvas
+      context.drawImage(this.buffer, layout.x, layout.y);
+      // clean up from state
       context.globalCompositeOperation = "source-over";
     }
   }

@@ -11,6 +11,7 @@ export default class ImageBrush extends Brush {
     this.width = 0;
     this.height = 0;
     this.buffer = document.createElement("canvas");
+    this.context = this.buffer.getContext("2d");
   }
 
   static observedAttributes = ["x", "y", "src", "follows", "width", "height", "recolor"];
@@ -61,15 +62,15 @@ export default class ImageBrush extends Brush {
     // apply to the buffer
     this.buffer.width = width;
     this.buffer.height = height;
-    var bufferContext = this.buffer.getContext("2d");
-    bufferContext.drawImage(this.image, 0, 0, width, height);
-    var bitmap = bufferContext.getImageData(0, 0, width, height);
+    var context = this.context
+    context.drawImage(this.image, 0, 0, width, height);
+    var bitmap = context.getImageData(0, 0, width, height);
     for (var i = 0; i < bitmap.data.length; i += 4) {
       bitmap.data[i] = r;
       bitmap.data[i+1] = g;
       bitmap.data[i+2] = b;
     }
-    bufferContext.putImageData(bitmap, 0, 0);
+    context.putImageData(bitmap, 0, 0);
   }
 
   draw(context, config) {

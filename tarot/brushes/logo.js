@@ -27,7 +27,6 @@ class LogoBrush extends ImageBrush {
     this.image.src = "./assets/logo-dark.png";
     this.image.onload = this.invalidate;
 
-    this.buffer = document.createElement("canvas");
     this.elements.bureau.addEventListener("change", this.invalidate);
   }
 
