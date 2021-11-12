@@ -48,6 +48,7 @@ class PhotoBrush extends Brush {
   }
 
   persist() {
+    if (!this.image) return null;
     var image = this.image;
     var tinted = this.elements.tinted.checked;
     return { image, tinted };
