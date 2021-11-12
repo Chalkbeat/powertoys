@@ -44,7 +44,8 @@ main {
 }
 
 .preview canvas {
-  max-width: 100%;
+  max-width: 600px;
+  width: 100%;
   aspect-ratio: 1200 / 628;
   box-shadow: 0 12px 12px black;
 }
