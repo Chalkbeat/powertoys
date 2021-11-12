@@ -2,7 +2,6 @@ import Brush from "./brush.js";
 import { getThemed } from "../defs.js";
 
 class PhotoBrush extends Brush {
-  
   static template = `
 <style>
 :host {
@@ -28,7 +27,7 @@ class PhotoBrush extends Brush {
 </div>
 
 <div class="warnings" as="warning"></div>
-  `
+  `;
 
   static boundMethods = ["onUpload", "invalidate"];
 
@@ -60,7 +59,7 @@ class PhotoBrush extends Brush {
   }
 
   onUpload() {
-    var [ file ] = this.elements.file.files;
+    var [file] = this.elements.file.files;
     if (!file) return;
     this.image = new Image();
     var url = URL.createObjectURL(file);
@@ -84,14 +83,20 @@ class PhotoBrush extends Brush {
 
   getLayout(context, config) {
     var [x, y] = this.denormalize(context.canvas, [this.x, this.y]);
-    var [width, height] = this.denormalize(context.canvas, [this.width, this.height]);
+    var [width, height] = this.denormalize(context.canvas, [
+      this.width,
+      this.height,
+    ]);
     return {
-      x, y, width, height,
+      x,
+      y,
+      width,
+      height,
       top: y,
       left: x,
       right: x + width,
-      bottom: y + height
-    }
+      bottom: y + height,
+    };
   }
 
   draw(context, config) {
@@ -100,14 +105,22 @@ class PhotoBrush extends Brush {
     context.fillRect(layout.x, layout.y, layout.width, layout.height);
     if (this.image) {
       // check for being too small
-      if (this.image.naturalWidth < layout.width || this.image.naturalHeight < layout.height) {
-        this.elements.warning.innerHTML = `This image is smaller than the display area, and may appear blurry when exported.`
+      if (
+        this.image.naturalWidth < layout.width ||
+        this.image.naturalHeight < layout.height
+      ) {
+        this.elements.warning.innerHTML = `
+          This image is smaller than the display area, 
+          and may appear blurry when exported.`;
       } else {
-        this.elements.warning.innerHTML = `Please make sure we have the rights to publish this photo (i.e., it has been purchased on Getty or is a courtesy photo from a source).`
+        this.elements.warning.innerHTML = `
+          Please make sure we have the rights to publish 
+          this photo (i.e., it has been purchased on Getty 
+          or is a courtesy photo from a source).`;
       }
       this.elements.warning.classList.add("shown");
-      var blend = this.elements.tinted.checked ? "luminosity" : "source-over";
-      context.globalCompositeOperation = blend;
+
+      // find photo positioning (centered in display area, scaled)
       var imageAspect = this.image.naturalWidth / this.image.naturalHeight;
       var layoutAspect = layout.width / layout.height;
       // try horizontal cover
@@ -123,20 +136,30 @@ class PhotoBrush extends Brush {
       var yOffset = (height - layout.height) / 2;
       var x = layout.x - xOffset;
       var y = layout.y - yOffset;
+
       // manually clip using the internal canvas
       this.buffer.width = layout.width;
       this.buffer.height = layout.height;
       this.context.drawImage(this.image, -xOffset, -yOffset, width, height);
+
+      // set tint or not
+      var blend = this.elements.tinted.checked ? "luminosity" : "source-over";
+      context.globalCompositeOperation = blend;
       // blit to the main canvas
       context.drawImage(this.buffer, layout.x, layout.y);
-      // clean up from state
+      // clean up tint settings
       context.globalCompositeOperation = "source-over";
     } else {
+      // add placeholder label
       context.fillStyle = getThemed(config.theme, "background");
       context.textAlign = "center";
       context.textBaseline = "middle";
-      context.font = `120px "IBM Plex Serif"`
-      context.fillText("PHOTO", layout.x + layout.width * .5, layout.y + layout.height * .5);
+      context.font = `120px "IBM Plex Serif"`;
+      context.fillText(
+        "PHOTO",
+        layout.x + layout.width * 0.5,
+        layout.y + layout.height * 0.5
+      );
     }
   }
 }
