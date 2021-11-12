@@ -36,11 +36,28 @@ main {
 
 .preview {
   grid-area: preview;
-  padding: 20px;
-  background: radial-gradient(#555, black);
+  background: radial-gradient(#DDD, #CCC);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 20px;
+}
+
+.preview .phone-frame {
+  padding: 80px 10px;
+  background: white;
+  border-radius: 40px;
+  border-width: 80px 10px;
+  border-color: black;
+  border-style: solid;
+  max-height: 90vh;
+  max-width: 100vh;
+  min-height: 0;
+  min-width: 0;
+  aspect-ratio: 10 / 13;
+  margin: 0;
+  flex: 1;
 }
 
 .preview canvas {
