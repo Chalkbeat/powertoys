@@ -49,6 +49,24 @@ main {
   box-shadow: 0 12px 12px black;
 }
 
+@media (max-width: 600px) {
+  main {
+    display: block;
+  }
+
+  .preview {
+    position: sticky;
+    top: 0;
+    box-shadow: 0 10px 16px rgba(0, 0, 0, .1);
+    z-index: 999;
+    padding: 0;
+  }
+
+  .preview canvas {
+    box-shadow: none;
+  }
+}
+
 .form {
   grid-area: config;
   padding: 20px;

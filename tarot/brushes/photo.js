@@ -22,8 +22,10 @@ class PhotoBrush extends Brush {
 <label for="photo-upload">Photo block:</label>
 <input type="file" id="photo-upload" as="file" accept="image/*">
 
-<input id="tint-image" as="tinted" type=checkbox>
-<label for="tint-image">Tint image?</label>
+<div>
+  <input id="tint-image" as="tinted" type=checkbox>
+  <label for="tint-image">Tint image?</label>
+</div>
 
 <div class="warnings" as="warning"></div>
   `
