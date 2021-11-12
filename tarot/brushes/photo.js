@@ -43,6 +43,17 @@ class PhotoBrush extends Brush {
     this.tint = "accent";
   }
 
+  persist() {
+    var image = this.image;
+    var tinted = this.elements.tinted.checked;
+    return { image, tinted };
+  }
+
+  restore(state) {
+    this.image = state.image;
+    this.elements.tinted.checked = state.tinted;
+  }
+
   onUpload() {
     var [ file ] = this.elements.file.files;
     if (!file) return;

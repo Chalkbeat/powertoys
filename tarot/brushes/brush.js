@@ -1,3 +1,5 @@
+var persistence = {};
+
 export default class Brush extends HTMLElement {
   constructor() {
     super();
@@ -18,6 +20,33 @@ export default class Brush extends HTMLElement {
       }
     }
     this.invalidate = this.invalidate.bind(this);
+  }
+
+  connectedCallback() {
+    requestAnimationFrame(() => {
+      var id = this.id;
+      var state = persistence[id];
+      if (id && state) {
+        this.restore(state);
+        this.invalidate();
+      }
+    });
+  }
+
+  disconnectedCallback() {
+    var id = this.id;
+    var state = this.persist();
+    if (id && state) {
+      persistence[id] = state;
+    }
+  }
+
+  persist() {
+    // override this
+  }
+
+  restore(state) {
+    // override this
   }
 
   draw(context) {

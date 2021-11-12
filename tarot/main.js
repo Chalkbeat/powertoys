@@ -14,10 +14,10 @@ var form = $.one(".form form");
 var scheduled = false;
 var scheduleUpdate = function() {
   if (scheduled) return;
-  scheduled = requestAnimationFrame(() => {
+  scheduled = setTimeout(() => {
     scheduled = null;
     updatePreview();
-  });
+  }, 50);
 }
 
 var updatePreview = function() {

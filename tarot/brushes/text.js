@@ -70,6 +70,14 @@ textarea {
     return this.elements.input.value = v;
   }
 
+  persist() {
+    return this.value;
+  }
+
+  restore(state) {
+    this.value = state;
+  }
+
   getLayout(context, config) {
     var { canvas } = context;
     var { input } = this.elements;
