@@ -131,6 +131,12 @@ class PhotoBrush extends Brush {
       context.drawImage(this.buffer, layout.x, layout.y);
       // clean up from state
       context.globalCompositeOperation = "source-over";
+    } else {
+      context.fillStyle = getThemed(config.theme, "background");
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.font = `120px "IBM Plex Serif"`
+      context.fillText("PHOTO", layout.x + layout.width * .5, layout.y + layout.height * .5);
     }
   }
 }
