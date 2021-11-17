@@ -44,6 +44,11 @@ class GroupedTextBrush extends Brush {
     }
     context.restore();
   }
+
+  get alt() {
+    var children = this.elements.slot.assignedElements();
+    return children.map(c => c.alt).filter(t => t).join("\n");
+  }
 }
 
 GroupedTextBrush.define("grouped-text-brush");

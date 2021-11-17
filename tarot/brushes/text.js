@@ -70,6 +70,14 @@ textarea {
     return this.elements.input.value = v;
   }
 
+  get alt() {
+    var text = this.value;
+    if (this.hasAttribute("quoted")) {
+      text = `"${text}"`;
+    }
+    return text;
+  }
+
   persist() {
     return this.value;
   }

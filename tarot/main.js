@@ -10,6 +10,7 @@ var theme = "chalkbeat";
 
 var templateSelect = $.one("select.template");
 var form = $.one(".form form");
+var altDisplay = $.one(".alt-display");
 
 var scheduled = false;
 var scheduleUpdate = function() {
@@ -27,10 +28,14 @@ var updatePreview = function() {
 
   // update from the form
   var drawables = form.children;
+  var alt = [];
   for (var d of drawables) {
     if (!d.draw) continue;
     d.draw(context, { theme });
+    var a = d.alt;
+    if (a) alt.push(a);
   }
+  altDisplay.value = alt.join("\n");
 }
 
 var updateTemplate = function() {
