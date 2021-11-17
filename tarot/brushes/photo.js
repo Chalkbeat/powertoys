@@ -17,11 +17,15 @@ class PhotoBrush extends Brush {
   padding: 10px;
   background: var(--peach);
 }
+
+.tint-controls {
+  display: none;
+}
 </style>
 <label for="photo-upload">Photo block:</label>
 <input type="file" id="photo-upload" as="file" accept="image/*">
 
-<div>
+<div class="tint-controls">
   <input id="tint-image" as="tinted" type=checkbox>
   <label for="tint-image">Tint image?</label>
 </div>
