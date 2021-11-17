@@ -13,7 +13,7 @@ class LogoBrush extends ImageBrush {
   <option>Newark</option>
   <option>New York</option>
   <option>Philadelphia</option>
-  <option>Tennesee</option>
+  <option>Tennessee</option>
 </select>
   `;
 
