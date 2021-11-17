@@ -8,6 +8,11 @@ class PhotoBrush extends Brush {
   display: block;
 }
 
+[as=credit] {
+  display: block;
+  width: 100%;
+}
+
 .warnings {
   display: none;
 }
@@ -25,6 +30,8 @@ class PhotoBrush extends Brush {
 <label for="photo-upload">Photo block:</label>
 <input type="file" id="photo-upload" as="file" accept="image/*">
 
+<input as="credit" placeholder="Photo credit">
+
 <div class="tint-controls">
   <input id="tint-image" as="tinted" type=checkbox>
   <label for="tint-image">Tint image?</label>
@@ -40,6 +47,7 @@ class PhotoBrush extends Brush {
 
     this.elements.file.addEventListener("change", this.onUpload);
     this.elements.tinted.addEventListener("change", this.invalidate);
+    this.elements.credit.addEventListener("input", this.invalidate);
     this.image = null;
     this.x = 0;
     this.y = 0;
@@ -153,6 +161,20 @@ class PhotoBrush extends Brush {
       context.drawImage(this.buffer, layout.x, layout.y);
       // clean up tint settings
       context.globalCompositeOperation = "source-over";
+
+      // is there a credit line?
+      var credit = this.elements.credit.value.trim().toUpperCase();
+      if (credit) {
+        context.textAlign = "right";
+        context.textBaseline = "bottom";
+        context.font = `italic 20px "Barlow Condensed"`;        
+        context.fillStyle = "white";
+        context.strokeStyle = "black";
+        context.lineWidth = 6;
+        context.strokeText(credit, layout.right - 20, layout.bottom - 10);
+        context.fillText(credit, layout.right - 20, layout.bottom - 10);
+      }
+
     } else {
       // add placeholder label
       context.fillStyle = getThemed(config.theme, "background");

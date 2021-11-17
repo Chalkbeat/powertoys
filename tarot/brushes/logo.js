@@ -84,8 +84,8 @@ class LogoBrush extends ImageBrush {
     if (layout.bureau) {
       context.fillStyle = color;
       context.textAlign = "left";
-      context.font = `italic 24px "Barlow Condensed"`;
       context.textBaseline = "top";
+      context.font = `italic 24px "Barlow Condensed"`;
       context.fillText(layout.bureau, layout.textX, layout.textY);
     }
   }
