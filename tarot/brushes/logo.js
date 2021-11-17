@@ -52,6 +52,7 @@ class LogoBrush extends ImageBrush {
     var bureau = this.elements.bureau.value;
     if (bureau) {
       bureau = bureau.toUpperCase();
+      context.textAlign = "left";
       context.font = `italic 24px "Barlow Condensed"`;
       var measurement = context.measureText(bureau);
       bWidth = measurement.width;
