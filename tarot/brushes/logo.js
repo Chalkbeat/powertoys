@@ -60,12 +60,12 @@ class LogoBrush extends ImageBrush {
 
     var [x, y] = this.denormalize(context.canvas, [this.x, this.y]);
     var bSpacing = bWidth ? 10 : 0;
-    var width = logoWidth + bSpacing + bWidth;
-    var height = logoHeight;
-    var textY = y - textSize * .5;
+    var width = Math.max(logoWidth, bWidth);
+    var height = bureau ? logoHeight + bSpacing + textSize : logoHeight;
+    var textX = x;
     x -= width * .5;
-    var textX = x + logoWidth + bSpacing;
     y -= height * .5;
+    var textY = y + logoHeight + bSpacing;
     var top = y;
     var left = x;
     var bottom = top + height;
@@ -83,7 +83,7 @@ class LogoBrush extends ImageBrush {
 
     if (layout.bureau) {
       context.fillStyle = color;
-      context.textAlign = "left";
+      context.textAlign = "center";
       context.textBaseline = "top";
       context.font = `italic 24px "Barlow Condensed"`;
       context.fillText(layout.bureau, layout.textX, layout.textY);
