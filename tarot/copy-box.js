@@ -24,8 +24,8 @@ textarea:focus {
 }
 
 textarea::selection {
-  background: inherit;
-  color: inherit;
+  background: currentColor;
+  color: white;
 }
 
 .toast {
@@ -91,6 +91,8 @@ class CopyBox extends HTMLElement {
     this.toastTimer = setTimeout(() => {
       toast.classList.remove("shown");
       this.toastTimer = null;
+      this.elements.textarea.selectionStart = 0;
+      this.elements.textarea.selectionEnd = 0;
     }, time);
   }
 
