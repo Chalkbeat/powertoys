@@ -82,17 +82,28 @@ main {
   margin: 16px 0;
 }
 
+.theme-group .themes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 .theme-group input {
   position: absolute;
   left: -10000px;
 }
 
 .theme-group label {
-  opacity: .2;
+  opacity: .5;
+  display: block;
+}
+
+.theme-group label theme-icon {
+  display: block;
 }
 
 .theme-group input:checked + label {
   opacity: 1;
+  font-weight: bold;
 }
 
 .form button {
