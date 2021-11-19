@@ -1,5 +1,6 @@
 import { colors, templates, getThemed } from "./defs.js";
 import "./theme-icon.js";
+import "./copy-box.js";
 
 var $ = (s, d = document) => d.querySelectorAll(s);
 $.one = (s, d = document) => d.querySelector(s);
