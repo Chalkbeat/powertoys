@@ -6,7 +6,7 @@ $.one = (s, d = document) => d.querySelector(s);
 
 var canvas = $.one(".preview canvas");
 var context = canvas.getContext("2d");
-var theme = "chalkbeat";
+var theme = "light";
 
 var templateSelect = $.one("select.template");
 var form = $.one(".form form");

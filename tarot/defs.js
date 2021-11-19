@@ -1,5 +1,6 @@
 export var colors = {
-  teal: "#178287",
+  darkTeal: "#178287",
+  teal: "#19A4AB",
   lightTeal: "#9CD1D4",
   peach: "#F79C75",
   lightPeach: "#F1CEBF",
@@ -10,7 +11,7 @@ export var colors = {
   blue: "#1B6383",
   lightBlue: "#A1C8DA",
   gray: "#828282",
-  black: "#333333",
+  black: "#393939",
   white: "#F8F8F8"
 };
 
@@ -18,18 +19,18 @@ export var colors = {
 // you can also specify a color directly instead of an index
 // [ dark, light, accent, text ]
 export var themes = {
-  chalkbeat: [ colors.white, colors.teal, colors.teal, colors.black ],
-  peach: [ colors.peach, colors.yellow, colors.black, colors.black ],
-  somber: [ colors.black, colors.gray, colors.teal, colors.white ],
-  purple: [ colors.purple, colors.yellow, colors.yellow, colors.white ]
+  light: [ colors.white, colors.gray, colors.black, colors.darkTeal, colors.teal ],
+  dark: [ colors.black, colors.gray, colors.white, colors.teal, colors.teal ],
+  chalkbeat: [ colors.darkTeal, colors.teal, colors.white, colors.yellow, colors.yellow ],
+  purple: [ colors.purple, colors.lightPurple, colors.white, colors.yellow, colors.yellow ]
 }
 
 var themeIndices = {
   background: 0,
-  dark: 0,
-  light: 1,
-  accent: 2,
-  text: 3
+  backgroundAlt: 1,
+  text: 2,
+  textAlt: 3,
+  accent: 4
 }
 
 export function getThemed(theme, shade) {

@@ -194,7 +194,7 @@ textarea {
 
   draw(context, config) {
     var { theme } = config;
-    var { color = 3 } = this;
+    var { color = "text" } = this;
     var { lines, textX, textY, lineHeight, anchor } = this.getLayout(context);
 
     context.textBaseline = "top";
