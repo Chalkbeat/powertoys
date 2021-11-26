@@ -61,12 +61,12 @@ export function getThemedRGB(theme, shade) {
 /*
 For more on how templates relate to drawing, see brushes/readme.rst.
 */
-import "./brushes/groupedText.js";
 import "./brushes/image.js";
 import "./brushes/logo.js";
+import "./brushes/photo.js";
 import "./brushes/rectangle.js";
 import "./brushes/text.js";
-import "./brushes/photo.js";
+import "./brushes/verticalStack.js";
 
 async function getTemplate(path) {
   var response = await fetch(`templates/${path}.html`);

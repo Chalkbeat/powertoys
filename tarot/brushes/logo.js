@@ -66,12 +66,10 @@ class LogoBrush extends ImageBrush {
     x -= width * .5;
     y -= height * .5;
     var textY = y + logoHeight + bSpacing;
-    var top = y;
-    var left = x;
-    var bottom = top + height;
-    var right = left + width;
-
-    return { x, y, top, bottom, left, right, height, width, bureau, textX, textY };
+    
+    var layout = new DOMRect(x, y, width, height);
+    Object.assign(layout, { bureau, textX, textY });
+    return layout;
   }
 
   draw(context, config) {

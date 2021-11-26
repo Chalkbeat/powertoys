@@ -1,6 +1,10 @@
 import Brush from "./brush.js";
 
-class GroupedTextBrush extends Brush {
+/*
+VerticalStack replaces the "follows" attribute, merging it into the former GroupedTextBrush
+*/
+
+class VerticalStack extends Brush {
 
   static template = `<slot as="slot"></slot>`;
 
@@ -14,9 +18,7 @@ class GroupedTextBrush extends Brush {
     // find child bounds
     var children = this.elements.slot.assignedElements();
     var layouts = children.map(c => c.getLayout(context));
-    var childTop = Math.min(...layouts.map(l => l.top));
-    var childBottom = Math.max(...layouts.map(l => l.bottom));
-    var height = childBottom - childTop;
+    var height = layouts.reduce((acc, l) => acc + l.height, 0);
 
     // find own bounds
     var anchor = this.getAttribute("anchor") || "middle";
@@ -27,20 +29,24 @@ class GroupedTextBrush extends Brush {
     y += this.dy || 0;
     var top = anchor == "middle" ? y - (height * .5):
       anchor == "bottom" ? y - height : y;
-    var bottom = top + height;
 
-    var delta = top - childTop;
+    var delta = top - height;
 
-    return { x, left: x, top, y: top, bottom, height, children, delta };
+    var layout = new DOMRect(x, top, 0, height);
+    layout.pairs = children.map((c, i) => [c, layouts[i]]);
+    return layout;
   }
 
   draw(context, config) {
     var layout = this.getLayout(context);
+    var { x, top, pairs } = layout;
     // set the canvas transform to place content
     context.save();
-    context.translate(layout.x, layout.delta);
-    for (var c of layout.children) {
-      c.draw(context, config);
+    // move to the starting point
+    context.translate(x, top);
+    for (var [ child, position ] of pairs) {
+      child.draw(context, config);
+      context.translate(0, position.height);
     }
     context.restore();
   }
@@ -51,4 +57,4 @@ class GroupedTextBrush extends Brush {
   }
 }
 
-GroupedTextBrush.define("grouped-text-brush");
+VerticalStack.define("vertical-stack");

@@ -1,4 +1,4 @@
-<grouped-text-brush dx="20" anchor="middle" y=".45" x=".1">
+<vertical-stack dx="20" anchor="middle" y=".45" x=".1">
   <text-brush
     size="60"
     id="quote"
@@ -11,8 +11,7 @@
   <image-brush
     recolor="accent"
     src="./assets/Chalkline-teal-dark.png"
-    id="line"
-    follows="quote"
+    align="left"
   ></image-brush>
   
   <text-brush
@@ -20,19 +19,17 @@
     size="48"
     padding="12 0 4"
     bold
-    follows="line"
     color="textAlt"
     value="Firstname Lastname"
     >Attribution</text-brush>
   
   <text-brush
     id="title"
-    follows="name"
     size="36"
     italic
     color="textAlt"
     value="Title/affilation/etc."
     >Title</text-brush>
-</grouped-text-brush>
+</vertical-stack>
 
 <logo-brush x=".5" y=".9" color="text"></logo-brush>

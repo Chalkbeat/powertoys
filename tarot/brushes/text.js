@@ -39,7 +39,7 @@ textarea {
   }
 
   static observedAttributes = [
-    "x", "y", "padding", "width", "follows", "value",
+    "x", "y", "padding", "width", "value",
     "anchor", "font", "size", "color", "bold", "italic"
   ];
   attributeChangedCallback(attr, was, value) {
@@ -93,18 +93,9 @@ textarea {
       anchor = "top left",
       color = "text",
       size = 24,
-      font = "Barlow Condensed",
-      follows
+      font = "Barlow Condensed"
     } = this;
-
-    if (follows) {
-      var followed = document.getElementById(follows);
-      var layout = followed.getLayout(context);
-      var x = layout.left;
-      var y = layout.bottom;
-    } else {
-      var [x, y] = this.denormalize(canvas, [this.x || 0, this.y || 0]);
-    }
+    var [x, y] = this.denormalize(canvas, [this.x || 0, this.y || 0]);
 
     // generate bounding rectangle
     var padding = (this.padding || "").trim().split(" ");
@@ -173,15 +164,9 @@ textarea {
     var textX = x + padding[3];
 
     var height = textHeight + padding[0] + padding[2];
-    return {
-      x,
-      y,
-      top: y,
-      left: x,
-      right: x + width,
-      bottom: y + height,
-      width,
-      height,
+
+    var layout = new DOMRect(x, y, width, height);
+    Object.assign(layout, {
       lineHeight,
       lines,
       textX,
@@ -189,7 +174,8 @@ textarea {
       anchor: hAnchor,
       size,
       font
-    }
+    });
+    return layout;
   }
 
   draw(context, config) {

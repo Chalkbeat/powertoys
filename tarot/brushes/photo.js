@@ -99,16 +99,7 @@ class PhotoBrush extends Brush {
       this.width,
       this.height,
     ]);
-    return {
-      x,
-      y,
-      width,
-      height,
-      top: y,
-      left: x,
-      right: x + width,
-      bottom: y + height,
-    };
+    return new DOMRect(x, y, width, height);
   }
 
   draw(context, config) {

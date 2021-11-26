@@ -14,7 +14,7 @@ export default class ImageBrush extends Brush {
     this.context = this.buffer.getContext("2d");
   }
 
-  static observedAttributes = ["x", "y", "src", "follows", "width", "height", "recolor"];
+  static observedAttributes = ["x", "y", "src", "width", "height", "recolor", "align"];
   attributeChangedCallback(attr, was, value) {
     switch (attr) {
       case "src":
@@ -24,8 +24,8 @@ export default class ImageBrush extends Brush {
         break;
 
       // strings
-      case "follows":
       case "recolor":
+      case "align":
         this[attr] = value;
         break;
 
@@ -45,17 +45,11 @@ export default class ImageBrush extends Brush {
     }
     var width = this.width || this.image.naturalWidth;
     var height = this.height || this.image.naturalHeight;
-    x -= width / 2;
+    x -= this.align == "left" ? 0 
+      : this.align == "right" ? width 
+      : width / 2;
     y -= height / 2;
-    if (this.follows) {
-      var following = document.getElementById(this.follows);
-      if (following) {
-        var followed = following.getLayout(context);
-        x = followed.left;
-        y = followed.bottom;
-      }
-    }
-    return { x, left: x, y, top: y, bottom: y + height, width, height }
+    return new DOMRect(x, y, width, height);
   }
 
   tintBuffer(image, width, height, [r, g, b]) {

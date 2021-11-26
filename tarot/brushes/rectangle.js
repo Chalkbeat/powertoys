@@ -43,9 +43,7 @@ class RectangleBrush extends Brush {
     var { x = 0, y = 0, width = canvas.width, height = canvas.height } = this;
     var [top, left] = this.denormalize(canvas, [x, y]);
     var [w, h] = this.denormalize(canvas, [width, height]);
-    var bottom = top + h;
-    var right = left + w;
-    return { top, left, bottom, right, width: w, height: h };
+    return new DOMRect(left, top, w, h);
   }
 }
 
