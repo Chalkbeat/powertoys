@@ -3,6 +3,20 @@ import { getThemedRGB } from "../defs.js";
 
 var nullRect = new DOMRect(0, 0, 0, 0);
 
+var logoCache = {};
+var loadLogo = function(url) {
+  console.log(logoCache[url]);
+  if (!logoCache[url]) {
+    logoCache[url] = new Promise(function(ok, fail) {
+      var image = new Image();
+      image.src = url;
+      image.onload = () => ok(image);
+      image.onerror = fail;
+    });
+  }
+  return logoCache[url];
+}
+
 class SeriesLogoBrush extends ImageBrush {
 
   static template = `
@@ -19,21 +33,26 @@ class SeriesLogoBrush extends ImageBrush {
     </select>
   `
 
+  static boundMethods = ["onSeries"];
+
   constructor() {
     super();
-    this.elements.series.addEventListener("change", this.invalidate);
-    this.images = {
+    this.elements.series.addEventListener("change", this.onSeries);
+    this.x = this.y = this.dx = this.dy = 0;
+    this.scale = .5;
+  }
+
+  async onSeries() {
+    var series = this.elements.series.value;
+    this.image = null;
+    this.invalidate();
+    if (!series) return;
+    var logos = {
       fp: "./assets/Cb-first-person-logo-teal.png",
       hit: "./assets/Cb-how-i-teach-logo-teal.png"
     };
-    for (var k in this.images) {
-      var src = this.images[k];
-      this.images[k] = new Image();
-      this.images[k].src = src;
-      this.images[k].onload = this.invalidate;
-    }
-    this.x = this.y = this.dx = this.dy = 0;
-    this.scale = .5;
+    this.image = await loadLogo(logos[series]);
+    this.invalidate();
   }
 
   static observedAttributes = ["x", "y", "dx", "dy", "scale", "color"];
@@ -54,16 +73,14 @@ class SeriesLogoBrush extends ImageBrush {
 
   restore(value) {
     this.elements.series.value = value;
+    this.onSeries();
   }
 
   getLayout(context) {
-    var series = this.elements.series.value;
-    if (!series) return nullRect;
-    var image = this.images[series];
-    if (!image.naturalWidth) return nullRect;
+    if (!this.image) return nullRect;
     var [x, y] = this.denormalize(context.canvas, [this.x, this.y]);
-    var width = image.naturalWidth * this.scale;
-    var height = image.naturalHeight * this.scale;
+    var width = this.image.naturalWidth * this.scale;
+    var height = this.image.naturalHeight * this.scale;
     x -= width / 2;
     x += this.dx;
     y += this.dy;
@@ -71,13 +88,10 @@ class SeriesLogoBrush extends ImageBrush {
   }
 
   draw(context, config) {
-    var series = this.elements.series.value;
-    if (!series) return;
-    var image = this.images[series];
-    if (!image.naturalWidth) return;
+    if (!this.image) return;
     var layout = this.getLayout(context);
     var rgb = getThemedRGB(config.theme, this.color);
-    this.tintBuffer(image, layout.width, layout.height, rgb);
+    this.tintBuffer(this.image, layout.width, layout.height, rgb);
     context.drawImage(this.buffer, layout.x, layout.y);
   }
 

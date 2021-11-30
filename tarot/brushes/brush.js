@@ -26,7 +26,7 @@ export default class Brush extends HTMLElement {
     requestAnimationFrame(() => {
       var id = this.id;
       var state = persistence[id];
-      if (id && state) {
+      if (id && typeof state != "undefined") {
         this.restore(state);
         this.invalidate();
       }
@@ -36,7 +36,7 @@ export default class Brush extends HTMLElement {
   disconnectedCallback() {
     var id = this.id;
     var state = this.persist();
-    if (id && state) {
+    if (id && typeof state != "undefined") {
       persistence[id] = state;
     }
   }
