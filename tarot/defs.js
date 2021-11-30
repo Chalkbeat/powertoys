@@ -65,6 +65,7 @@ import "./brushes/image.js";
 import "./brushes/logo.js";
 import "./brushes/photo.js";
 import "./brushes/rectangle.js";
+import "./brushes/seriesLogo.js";
 import "./brushes/text.js";
 import "./brushes/verticalStack.js";
 

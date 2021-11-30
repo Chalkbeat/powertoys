@@ -57,7 +57,7 @@ export default class ImageBrush extends Brush {
     this.buffer.width = width;
     this.buffer.height = height;
     var context = this.context
-    context.drawImage(this.image, 0, 0, width, height);
+    context.drawImage(image, 0, 0, width, height);
     var bitmap = context.getImageData(0, 0, width, height);
     for (var i = 0; i < bitmap.data.length; i += 4) {
       bitmap.data[i] = r;
