@@ -1,4 +1,4 @@
-import { colors, templates, getThemed } from "./defs.js";
+import { colors, getThemed, getTemplate } from "./defs.js";
 import "./theme-icon.js";
 import "./copy-box.js";
 
@@ -39,8 +39,9 @@ var updatePreview = function() {
   altDisplay.value = alt.join("\n");
 }
 
-var updateTemplate = function() {
-  form.innerHTML = templates[templateSelect.value];
+var updateTemplate = async function() {
+  var html = await getTemplate(templateSelect.value);
+  form.innerHTML = html;
   scheduleUpdate();
 };
 

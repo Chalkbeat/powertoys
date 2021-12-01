@@ -12,26 +12,44 @@ export var colors = {
   lightBlue: "#A1C8DA",
   gray: "#828282",
   black: "#393939",
-  white: "#F8F8F8"
+  white: "#F8F8F8",
 };
 
 // themes are specified as an array of items, typically in these categories
 // you can also specify a color directly instead of an index
-// [ dark, light, accent, text ]
+// [ background, alternate background, text, alternate text, accent ]
 export var themes = {
-  light: [ colors.white, colors.gray, colors.black, colors.darkTeal, colors.teal ],
-  dark: [ colors.black, colors.gray, colors.white, colors.teal, colors.teal ],
-  chalkbeat: [ colors.darkTeal, colors.teal, colors.white, colors.yellow, colors.yellow ],
-  purple: [ colors.purple, colors.lightPurple, colors.white, colors.yellow, colors.yellow ]
-}
+  light: [
+    colors.white,
+    colors.gray,
+    colors.black,
+    colors.darkTeal,
+    colors.teal,
+  ],
+  dark: [colors.black, colors.gray, colors.white, colors.teal, colors.teal],
+  chalkbeat: [
+    colors.darkTeal,
+    colors.teal,
+    colors.white,
+    colors.yellow,
+    colors.yellow,
+  ],
+  purple: [
+    colors.purple,
+    colors.lightPurple,
+    colors.white,
+    colors.yellow,
+    colors.yellow,
+  ],
+};
 
 var themeIndices = {
   background: 0,
   backgroundAlt: 1,
   text: 2,
   textAlt: 3,
-  accent: 4
-}
+  accent: 4,
+};
 
 export function getThemed(theme, shade) {
   var palette = themes[theme];
@@ -52,8 +70,7 @@ export function getThemedRGB(theme, shade) {
     // we'll use canvas to take advantage of browser support for color names
     context.fillStyle = background;
     context.fillRect(0, 0, 1, 1);
-    var { data } = context.getImageData(0, 0, 1, 1);
-    rgbCache[background] = data.slice();
+    rgbCache[background] = context.getImageData(0, 0, 1, 1).data.slice();
   }
   return rgbCache[background];
 }
@@ -69,14 +86,11 @@ import "./brushes/seriesLogo.js";
 import "./brushes/text.js";
 import "./brushes/verticalStack.js";
 
-async function getTemplate(path) {
-  var response = await fetch(`templates/${path}.html`);
-  return response.text();
-}
+var templateCache = {};
 
-export var templates = {
-  quote: await getTemplate("quote"),
-  breaking: await getTemplate("breaking"),
-  quotePhotoLeft: await getTemplate("quotePhotoLeft"),
-  quotePhotoRight: await getTemplate("quotePhotoRight")
-};
+export async function getTemplate(path) {
+  if (!templateCache[path]) {
+    templateCache[path] = fetch(`templates/${path}.html`).then(r => r.text());
+  }
+  return templateCache[path];
+}

@@ -66,6 +66,7 @@ class PhotoBrush extends Brush {
   }
 
   restore(state) {
+    if (!state) return;
     this.image = state.image;
     this.elements.tinted.checked = state.tinted;
   }
