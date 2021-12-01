@@ -42,15 +42,11 @@ export default class Brush extends HTMLElement {
   }
 
   persist() {
-    // override this
+    // override me
   }
 
   restore(state) {
-    // override this
-  }
-
-  draw(context) {
-    // override this
+    // override me
   }
 
   dispatch(event, detail = {}) {
@@ -60,6 +56,14 @@ export default class Brush extends HTMLElement {
 
   invalidate() {
     this.dispatch("update");
+  }
+
+  getLayout(context, config) {
+    // your positioning code should go here
+  }
+
+  draw(context, config) {
+    // your rendering code should go here
   }
 
   getNumeric(attribute) {
