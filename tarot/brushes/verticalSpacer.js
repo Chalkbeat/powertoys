@@ -66,6 +66,11 @@ class VerticalSpacer extends Brush {
     context.restore();
   }
 
+  get alt() {
+    var children = Array.from(this.children);
+    return children.map(c => c.alt).filter(t => t).join("\n");
+  }
+
 }
 
 VerticalSpacer.define("vertical-spacer");
