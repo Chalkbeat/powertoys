@@ -78,8 +78,8 @@ main {
   overflow-y: auto;
 }
 
-.form form * {
-  margin: 16px 0;
+.form > *, form * {
+  margin: 8px 0;
 }
 
 .theme-group .themes {

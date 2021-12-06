@@ -27,10 +27,25 @@ textarea {
   font-family: var(--serif);
   width: 100%;
   resize: vertical;
+  padding-bottom: 0;
+  display: block;
+}
+
+[as="wordCount"] {
+  font-size: 12px;
+  text-align: right;
+  margin-top: 4px;
+  line-height: 1;
+  display: none;
+}
+
+:host([wordcount]) [as="wordCount"] {
+  display: block;
 }
 </style>
 <label class="slotted"><slot></slot></div>
 <textarea as="input">This space intentionally left blank.</textarea>
+<div as="wordCount">0 characters / 0 words</div>
   `;
 
   constructor() {
@@ -174,6 +189,13 @@ textarea {
     context.textAlign = anchor;
     context.fillStyle = getThemed(theme, color);
     lines.forEach((line, i) => context.fillText(line, textX, textY + i * lineHeight));
+
+    // update word counts
+    var characters = this.value.length;
+    var words = this.value.split(/\s+/).length;
+    this.elements.wordCount.innerHTML = `
+      ${characters} character${characters > 1 ? "s" : ""} / 
+      ${words} word${words > 1 ? "s" : ""}`;
   }
 }
 
