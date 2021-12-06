@@ -5,7 +5,6 @@ var nullRect = new DOMRect(0, 0, 0, 0);
 
 var logoCache = {};
 var loadLogo = function(url) {
-  console.log(logoCache[url]);
   if (!logoCache[url]) {
     logoCache[url] = new Promise(function(ok, fail) {
       var image = new Image();

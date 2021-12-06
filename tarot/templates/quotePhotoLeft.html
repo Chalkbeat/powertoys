@@ -1,41 +1,45 @@
-<series-logo id="series" color="accent" x=".7" dy="24" scale=".4"></series-logo>
+<vertical-spacer padding="20 0">
+
+  <series-logo id="series" color="accent" x=".7" scale=".4"></series-logo>
+
+  <vertical-stack dx="40" anchor="top" x=".4">
+    <text-brush
+      size="60"
+      id="quote"
+      width=".5"
+      padding="0 0 20"
+      quoted
+      value="Insert quote text here."
+      >Quotation</text-brush>
+
+    <image-brush
+      recolor="accent"
+      src="./assets/Chalkline-teal-dark.png"
+      align="left"
+    ></image-brush>
+
+    <text-brush
+      id="name"
+      size="48"
+      padding="12 0 4"
+      width=".5"
+      bold
+      color="textAlt"
+      value="Firstname Lastname"
+      >Attribution</text-brush>
+
+    <text-brush
+      id="title"
+      size="36"
+      width=".5"
+      italic
+      color="textAlt"
+      value="Title/affilation/etc."
+      >Title</text-brush>
+  </vertical-stack>
+
+  <logo-brush x=".70" color="text" align="top"></logo-brush>
+
+</vertical-spacer>
 
 <photo-brush id="portrait" width=".4"></photo-brush>
-
-<vertical-stack dx="40" anchor="middle" x=".4" y=".45">
-  <text-brush
-    size="60"
-    id="quote"
-    width=".5"
-    padding="20 0"
-    quoted
-    value="Insert quote text here."
-    >Quotation</text-brush>
-
-  <image-brush
-    recolor="accent"
-    src="./assets/Chalkline-teal-dark.png"
-    align="left"
-  ></image-brush>
-
-  <text-brush
-    id="name"
-    size="48"
-    padding="12 0 4"
-    width=".5"
-    bold
-    color="textAlt"
-    value="Firstname Lastname"
-    >Attribution</text-brush>
-
-  <text-brush
-    id="title"
-    size="36"
-    width=".5"
-    italic
-    color="textAlt"
-    value="Title/affilation/etc."
-    >Title</text-brush>
-</vertical-stack>
-
-<logo-brush x=".70" y=".9" color="text"></logo-brush>

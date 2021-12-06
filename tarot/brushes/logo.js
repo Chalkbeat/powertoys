@@ -30,11 +30,12 @@ class LogoBrush extends ImageBrush {
     this.elements.bureau.addEventListener("change", this.invalidate);
   }
 
-  static observedAttributes = ["x", "y", "color"];
+  static observedAttributes = ["x", "y", "color", "align"];
   attributeChangedCallback(attr, was, value) {
     switch (attr) {
       case "color":
-        this.color = value;
+      case "align":
+        this[attr] = value;
         break;
 
       default:
@@ -64,7 +65,9 @@ class LogoBrush extends ImageBrush {
     var height = bureau ? logoHeight + bSpacing + textSize : logoHeight;
     var textX = x;
     x -= width * .5;
-    y -= height * .5;
+    y = this.align == "top" ? y :
+      this.align == "bottom" ? y - height :
+      y - height * .5;
     var textY = y + logoHeight + bSpacing;
     
     var layout = new DOMRect(x, y, width, height);

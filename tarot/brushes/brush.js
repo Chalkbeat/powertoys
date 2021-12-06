@@ -66,6 +66,27 @@ export default class Brush extends HTMLElement {
     // your rendering code should go here
   }
 
+  unpackPadding(input) {
+    input = input.trim().split(" ").map(Number)
+    var [pt, pr, pb, pl] = input;
+    var padding = input;
+    switch (input.length) {
+      case 0:
+        padding = [0, 0, 0, 0];
+        break;
+      case 1:
+        padding = [pt, pt, pt, pt];
+        break;
+      case 2:
+        padding = [pt, pr, pt, pr];
+        break;
+      case 3:
+        padding = [pt, pr, pb, pr];
+        break;
+    }
+    return padding;
+  }
+
   getNumeric(attribute) {
     return this.getAttribute(attribute) * 1;
   }

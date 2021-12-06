@@ -36,6 +36,10 @@ textarea {
   constructor() {
     super();
     this.elements.input.addEventListener("input", this.invalidate);
+    this.x = 0;
+    this.y = 0;
+    this.width = 1;
+    this.height = 1;
   }
 
   static observedAttributes = [
@@ -98,25 +102,8 @@ textarea {
     var [x, y] = this.denormalize(canvas, [this.x || 0, this.y || 0]);
 
     // generate bounding rectangle
-    var padding = (this.padding || "").trim().split(" ");
-    var [pt, pr, pb, pl] = padding.map(Number);
-    switch (padding.length) {
-      case 0:
-        padding = [0, 0, 0, 0];
-        break;
-      case 1:
-        padding = [pt, pt, pt, pt];
-        break;
-      case 2:
-        padding = [pt, pr, pt, pr];
-        break;
-      case 3:
-        padding = [pt, pr, pb, pr];
-        break;
-
-      default:
-        padding = [pt, pr, pb, pl];
-    }
+    var padding = this.unpackPadding(this.padding || "");
+    
     var [width] = this.denormalize(canvas, [this.width || 1, 1]);
     // subtract horizontal padding
     width -= padding[1] + padding[3];

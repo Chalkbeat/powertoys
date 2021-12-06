@@ -85,6 +85,7 @@ import "./brushes/rectangle.js";
 import "./brushes/seriesLogo.js";
 import "./brushes/text.js";
 import "./brushes/verticalStack.js";
+import "./brushes/verticalSpacer.js";
 
 var templateCache = {};
 
