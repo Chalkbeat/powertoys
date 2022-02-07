@@ -125,6 +125,16 @@ main {
   cursor: pointer;
 }
 
+.info {
+  text-align: center;
+  background: var(--light-blue);
+  padding: 8px;
+}
+
+.info a, .info a:visited {
+  color: inherit;
+}
+
 .warning {
   background: var(--peach);
   padding: 8px;
