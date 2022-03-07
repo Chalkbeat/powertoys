@@ -64,6 +64,6 @@ downloadButton.addEventListener("click", function() {
   var template = templateSelect.value;
   var timestamp = Date.now();
   link.setAttribute("download", `${template}-${timestamp}.jpg`);
-  link.setAttribute("href", canvas.toDataURL("image/jpg"));
+  link.setAttribute("href", canvas.toDataURL("image/jpeg", .7));
   link.click();
 });
