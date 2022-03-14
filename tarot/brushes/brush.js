@@ -95,6 +95,23 @@ export default class Brush extends HTMLElement {
     return [x * canvas.width, y * canvas.height];
   }
 
+  // support px and % measurements in attributes
+  project(measurement, domain) {
+    if (typeof measurement == "string") {
+      var [_, numeric, unit] = measurement.match(/\s*([\d\.]+)\s*(px|%)?/);
+      numeric = Number(numeric);
+      if (unit == "%") {
+        return numeric / 100 * domain;
+      } else if (unit == "px") {
+        return numeric;
+      } else {
+        return numeric * domain;
+      }
+    }
+    // fallback for numbers
+    return measurement * domain;
+  }
+
   static define(tag) {
     window.customElements.define(tag, this);
   }

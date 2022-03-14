@@ -35,6 +35,8 @@ class LogoBrush extends ImageBrush {
     switch (attr) {
       case "color":
       case "align":
+      case "x":
+      case "y":
         this[attr] = value;
         break;
 
@@ -59,7 +61,9 @@ class LogoBrush extends ImageBrush {
       bWidth = measurement.width;
     }
 
-    var [x, y] = this.denormalize(context.canvas, [this.x, this.y]);
+    var x = this.project(this.x, context.canvas.width);
+    var y = this.project(this.y, context.canvas.height);
+    // var [x, y] = this.denormalize(context.canvas, [this.x, this.y]);
     var bSpacing = bWidth ? 10 : 0;
     var width = Math.max(logoWidth, bWidth);
     var height = bureau ? logoHeight + bSpacing + textSize : logoHeight;
