@@ -14,6 +14,7 @@ class LogoBrush extends ImageBrush {
   <option>New York</option>
   <option>Philadelphia</option>
   <option>Tennessee</option>
+  <option>Votebeat</option>
 </select>
   `;
 
@@ -26,6 +27,10 @@ class LogoBrush extends ImageBrush {
     this.image = new Image();
     this.image.src = "./assets/logo-dark.png";
     this.image.onload = this.invalidate;
+
+    this.votebeat = new Image();
+    this.votebeat.src = "./assets/Vb-Logo-1Color-Black-V2.png";
+    this.votebeat.onload = this.invalidate;
 
     this.elements.bureau.addEventListener("change", this.invalidate);
   }
@@ -46,27 +51,32 @@ class LogoBrush extends ImageBrush {
   }
 
   getLayout(context) {
-    // hardcode image values
-    var logoWidth = 124; // really: 247;
-    var logoHeight = 40; // really: 79;
-    var textSize = 24;
 
     var bWidth = 0;
     var bureau = this.elements.bureau.value;
-    if (bureau) {
+    var isVB = bureau == "Votebeat";
+    var showLabel = false;
+    if (bureau && !isVB) {
       bureau = bureau.toUpperCase();
       context.textAlign = "left";
       context.font = `italic 24px "Barlow Condensed"`;
       var measurement = context.measureText(bureau);
       bWidth = measurement.width;
+      showLabel = true;
     }
+
+    // hardcode image values
+    var logoWidth = isVB ? 148 : 124;
+    var logoHeight = isVB ? 36 : 40;
+    var textSize = 24;
+    var logo = isVB ? this.votebeat : this.image;
 
     var x = this.project(this.x, context.canvas.width);
     var y = this.project(this.y, context.canvas.height);
     // var [x, y] = this.denormalize(context.canvas, [this.x, this.y]);
     var bSpacing = bWidth ? 10 : 0;
     var width = Math.max(logoWidth, bWidth);
-    var height = bureau ? logoHeight + bSpacing + textSize : logoHeight;
+    var height = showLabel ? logoHeight + bSpacing + textSize : logoHeight;
     var textX = x;
     x -= width * .5;
     y = this.align == "top" ? y :
@@ -75,23 +85,24 @@ class LogoBrush extends ImageBrush {
     var textY = y + logoHeight + bSpacing;
     
     var layout = new DOMRect(x, y, width, height);
-    Object.assign(layout, { bureau, textX, textY });
+    Object.assign(layout, { bureau, textX, textY, logo, logoWidth, logoHeight, showLabel });
     return layout;
   }
 
   draw(context, config) {
     var layout = this.getLayout(context);
+    var { logo, textX, textY, logoWidth, logoHeight, bureau, showLabel } = layout;
     var color = getThemed(config.theme, this.color);
     var rgb = getThemedRGB(config.theme, this.color);
-    this.tintBuffer(this.image, 124, 40, rgb);
+    this.tintBuffer(logo, logoWidth, logoHeight, rgb);
     context.drawImage(this.buffer, layout.x, layout.y);
 
-    if (layout.bureau) {
+    if (showLabel) {
       context.fillStyle = color;
       context.textAlign = "center";
       context.textBaseline = "top";
       context.font = `italic 24px "Barlow Condensed"`;
-      context.fillText(layout.bureau, layout.textX, layout.textY);
+      context.fillText(bureau, textX, textY);
     }
   }
 }

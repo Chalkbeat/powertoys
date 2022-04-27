@@ -13,6 +13,12 @@ export var colors = {
   gray: "#828282",
   black: "#393939",
   white: "#F8F8F8",
+  // Votebeat colors
+  mauve: "#554359",
+  vbYellow: "#FCE487",
+  orange: "#F5B362",
+  green: "#ABD299",
+  vbBlue: "#8EAAC2"
 };
 
 // themes are specified as an array of items, typically in these categories
@@ -41,6 +47,13 @@ export var themes = {
     colors.yellow,
     colors.yellow,
   ],
+  votebeat: [
+    colors.white,
+    colors.gray,
+    colors.black,
+    colors.mauve,
+    colors.orange
+  ]
 };
 
 var themeIndices = {
