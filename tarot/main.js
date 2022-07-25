@@ -1,4 +1,4 @@
-import { colors, getThemed, getTemplate } from "./defs.js";
+import { sizes, colors, getThemed, getTemplate } from "./defs.js";
 import "./theme-icon.js";
 import "./copy-box.js";
 
@@ -9,6 +9,7 @@ var canvas = $.one(".preview canvas");
 var context = canvas.getContext("2d");
 var theme = "light";
 
+var sizeSelect = $.one("select.size");
 var templateSelect = $.one("select.template");
 var form = $.one(".form form");
 var altDisplay = $.one(".alt-display");
@@ -21,6 +22,16 @@ var scheduleUpdate = function() {
     updatePreview();
   }, 50);
 }
+
+var updateSize = function() {
+  var { value } = sizeSelect;
+  var [width, height] = sizes[value];
+  canvas.width = width;
+  canvas.height = height;
+  canvas.style.aspectRatio = `${width} / ${height}`
+  updatePreview();
+}
+sizeSelect.addEventListener("change", updateSize);
 
 var updatePreview = function() {
   // clear the canvas

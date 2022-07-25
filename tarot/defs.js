@@ -21,6 +21,12 @@ export var colors = {
   vbBlue: "#8EAAC2"
 };
 
+export var sizes = {
+  default: [1200, 628],
+  ig: [1080, 1080],
+  igs: [1080, 1920]
+}
+
 // themes are specified as an array of items, typically in these categories
 // you can also specify a color directly instead of an index
 // [ background, alternate background, text, alternate text, accent ]
