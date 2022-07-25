@@ -37,8 +37,10 @@
           <label>Select a template:</label>
           <select class="template">
             <option selected value="quote">Quote</option>
-            <option value="quotePhotoLeft">Quote - Photo Left</option>
-            <option value="quotePhotoRight">Quote - Photo Right</option>
+            <option data-exclude="igs" data-fallback="quotePhotoAbove" value="quotePhotoLeft">Quote - Photo Left</option>
+            <option data-exclude="igs" data-fallback="quotePhotoAbove" value="quotePhotoRight">Quote - Photo Right</option>
+            <option data-include="igs" data-fallback="quotePhotoLeft" value="quotePhotoAbove">Quote - Photo Above</option>
+            <option data-include="igs" data-fallback="quotePhotoLeft" value="quotePhotoBelow">Quote - Photo Below</option>
             <option value="breaking">Breaking headline</option>
           </select>
         </div>
