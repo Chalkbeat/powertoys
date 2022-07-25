@@ -23,12 +23,29 @@ var scheduleUpdate = function() {
   }, 50);
 }
 
-var updateSize = function() {
+var updateSize = async function() {
   var { value } = sizeSelect;
   var [width, height] = sizes[value];
   canvas.width = width;
   canvas.height = height;
   canvas.style.aspectRatio = `${width} / ${height}`
+  for (var option of templateSelect.children) {
+    var excluded = (option.dataset.exclude || "").split(/,\s*/).filter(d => d);
+    var included = (option.dataset.include || "").split(/,\s*/).filter(d => d);
+    var hidden = false;
+    if (included.length) {
+      hidden = !included.includes(value);
+    }
+    if (excluded.length) {
+      hidden = excluded.includes(value);
+    }
+    option.toggleAttribute("hidden", hidden);
+  }
+  var [ selectedTemplate ] = templateSelect.selectedOptions;
+  if (selectedTemplate.hidden) {
+    templateSelect.value = selectedTemplate.dataset.fallback || "quote";
+    await updateTemplate();
+  }
   updatePreview();
 }
 sizeSelect.addEventListener("change", updateSize);
@@ -61,12 +78,12 @@ var updateTheme = function() {
   scheduleUpdate();
 }
 
-
 templateSelect.addEventListener("change", updateTemplate);
 $.one(".theme-group").addEventListener("input", updateTheme);
 form.addEventListener("update", scheduleUpdate);
 document.fonts.onloadingdone = scheduleUpdate;
 
+updateSize();
 updateTemplate();
 
 var downloadButton = $.one("button.download");
