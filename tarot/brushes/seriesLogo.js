@@ -29,6 +29,7 @@ class SeriesLogoBrush extends ImageBrush {
       <option selected value="">None</option>
       <option value="fp">First Person</option>
       <option value="hit">How I Teach</option>
+      <option value="atb">After the Bell</option>
     </select>
   `
 
@@ -48,7 +49,8 @@ class SeriesLogoBrush extends ImageBrush {
     if (!series) return;
     var logos = {
       fp: "./assets/Cb-first-person-logo-teal.png",
-      hit: "./assets/Cb-how-i-teach-logo-teal.png"
+      hit: "./assets/Cb-how-i-teach-logo-teal.png",
+      atb: "./assets/Cb-after-the-bell-logo-teal.png"
     };
     this.image = await loadLogo(logos[series]);
     this.invalidate();
