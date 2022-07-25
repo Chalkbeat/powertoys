@@ -16,6 +16,12 @@ var loadLogo = function(url) {
   return logoCache[url];
 }
 
+const logos = {
+  fp: { label: "First Person", url: "./assets/Cb-first-person-logo-teal.png" },
+  hit: { label: "How I Teach", url: "./assets/Cb-how-i-teach-logo-teal.png" },
+  atb: { label: "After the Bell", url: "./assets/Cb-after-the-bell-logo-teal.png" }
+};
+
 class SeriesLogoBrush extends ImageBrush {
 
   static template = `
@@ -27,9 +33,9 @@ class SeriesLogoBrush extends ImageBrush {
     <label>Series logo:</label>
     <select as="series">
       <option selected value="">None</option>
-      <option value="fp">First Person</option>
-      <option value="hit">How I Teach</option>
-      <option value="atb">After the Bell</option>
+      ${Object.entries(logos).map(([key, value]) => `
+      <option value="${key}">${value.label}</option>
+      `).join("\n")}
     </select>
   `
 
@@ -47,12 +53,7 @@ class SeriesLogoBrush extends ImageBrush {
     this.image = null;
     this.invalidate();
     if (!series) return;
-    var logos = {
-      fp: "./assets/Cb-first-person-logo-teal.png",
-      hit: "./assets/Cb-how-i-teach-logo-teal.png",
-      atb: "./assets/Cb-after-the-bell-logo-teal.png"
-    };
-    this.image = await loadLogo(logos[series]);
+    this.image = await loadLogo(logos[series].url);
     this.invalidate();
   }
 
