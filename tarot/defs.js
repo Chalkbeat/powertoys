@@ -22,9 +22,9 @@ export var colors = {
 };
 
 export var sizes = {
-  default: [1200, 628],
-  ig: [1080, 1080],
-  igs: [1080, 1920]
+  default: { canvas: [1200, 628] },
+  ig: { canvas: [1080, 1080] },
+  igs: { canvas: [1080, 1920], fontScaling: 1.3, logoScaling: 1.5 }
 }
 
 // themes are specified as an array of items, typically in these categories

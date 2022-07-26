@@ -14,10 +14,10 @@ class VerticalStack extends Brush {
     this[attr] = Number(value);
   }
 
-  getLayout(context) {
+  getLayout(context, config) {
     // find child bounds
     var children = this.elements.slot.assignedElements();
-    var layouts = children.map(c => c.getLayout(context));
+    var layouts = children.map(c => c.getLayout(context, config));
     var height = layouts.reduce((acc, l) => acc + l.height, 0);
 
     // find own bounds
@@ -38,7 +38,7 @@ class VerticalStack extends Brush {
   }
 
   draw(context, config) {
-    var layout = this.getLayout(context);
+    var layout = this.getLayout(context, config);
     var { x, top, pairs } = layout;
     // set the canvas transform to place content
     context.save();

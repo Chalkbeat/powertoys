@@ -49,7 +49,7 @@ main {
 
 .preview canvas {
   max-width: min(100vw, 600px);
-  max-height: 80vh;
+  max-height: 90vh;
   aspect-ratio: 1200 / 628;
   box-shadow: 0 12px 12px black;
 }

@@ -78,11 +78,12 @@ class SeriesLogoBrush extends ImageBrush {
     this.onSeries();
   }
 
-  getLayout(context) {
+  getLayout(context, config) {
     if (!this.image) return nullRect;
     var [x, y] = this.denormalize(context.canvas, [this.x, this.y]);
-    var width = this.image.naturalWidth * this.scale;
-    var height = this.image.naturalHeight * this.scale;
+    var { logoScaling = 1 } = config;
+    var width = this.image.naturalWidth * this.scale * logoScaling;
+    var height = this.image.naturalHeight * this.scale * logoScaling;
     x -= width / 2;
     x += this.dx;
     y += this.dy;
@@ -91,7 +92,7 @@ class SeriesLogoBrush extends ImageBrush {
 
   draw(context, config) {
     if (!this.image) return;
-    var layout = this.getLayout(context);
+    var layout = this.getLayout(context, config);
     var rgb = getThemedRGB(config.theme, this.color);
     this.tintBuffer(this.image, layout.width, layout.height, rgb);
     context.drawImage(this.buffer, layout.x, layout.y);

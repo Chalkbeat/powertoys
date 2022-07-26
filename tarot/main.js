@@ -25,7 +25,7 @@ var scheduleUpdate = function() {
 
 var updateSize = async function() {
   var { value } = sizeSelect;
-  var [width, height] = sizes[value];
+  var [width, height] = sizes[value].canvas;
   canvas.width = width;
   canvas.height = height;
   canvas.style.aspectRatio = `${width} / ${height}`
@@ -58,9 +58,11 @@ var updatePreview = function() {
   // update from the form
   var drawables = form.children;
   var alt = [];
+  var size = sizeSelect.value;
+  var { fontScaling = 1, logoScaling = 1 } = sizes[size];
   for (var d of drawables) {
     if (!d.draw) continue;
-    d.draw(context, { theme });
+    d.draw(context, { theme, fontScaling, logoScaling });
     var a = d.alt;
     if (a) alt.push(a);
   }

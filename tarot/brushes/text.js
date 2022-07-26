@@ -105,7 +105,7 @@ textarea {
     this.value = state;
   }
 
-  getLayout(context, config) {
+  getLayout(context, config = {}) {
     var { canvas } = context;
     var { input } = this.elements;
     var {
@@ -124,6 +124,8 @@ textarea {
     width -= padding[1] + padding[3];
     
     // reflow text
+    var { fontScaling = 1 } = config;
+    size *= fontScaling;
     var formatting = [];
     if (this.italic) formatting.push("italic");
     if (this.bold) formatting.push("bold");
@@ -183,7 +185,7 @@ textarea {
   draw(context, config) {
     var { theme } = config;
     var { color = "text" } = this;
-    var { lines, textX, textY, lineHeight, anchor } = this.getLayout(context);
+    var { lines, textX, textY, lineHeight, anchor } = this.getLayout(context, config);
 
     context.textBaseline = "top";
     context.textAlign = anchor;

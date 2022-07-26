@@ -25,7 +25,7 @@ class VerticalSpacer extends Brush {
 
   // this is explicitly not a flex layout--it is the size you assign,
   // regardless of child size
-  getLayout(context) {
+  getLayout(context, config) {
     var [x, y] = this.denormalize(context.canvas, [this.x, this.y]);
     var [w, h] = this.denormalize(context.canvas, [this.width, this.height]);
     return new DOMRect(x, y, w, h);
