@@ -19,6 +19,9 @@
   --accent: var(--teal);
 
   font-family: var(--sans);
+
+  --spacing: 4px;
+  --light-gray: white;
 }
 
 * {
@@ -78,8 +81,9 @@ main {
   overflow-y: auto;
 }
 
-.form > *, form * {
-  margin: 8px 0;
+.form .select-group,
+.form .theme-group {
+  margin: var(--spacing) 0;
 }
 
 .theme-group .themes {

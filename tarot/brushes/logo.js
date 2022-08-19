@@ -3,6 +3,14 @@ import { getThemed, getThemedRGB } from "../defs.js";
 
 class LogoBrush extends ImageBrush {
   static template = `
+<style>
+:host {
+  display: block;
+  margin: var(--spacing) 0;
+  padding: var(--spacing) 0;
+  border-bottom: 1px solid var(--light-gray);
+}
+</style>
 <label>Logo</logo>
 <select as="bureau">
   <option value="">No bureau, only logo</option>

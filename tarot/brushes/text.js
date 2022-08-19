@@ -17,6 +17,9 @@ class TextBrush extends Brush {
 <style>
 :host {
   display: block;
+  margin: var(--spacing) 0;
+  padding: var(--spacing) 0;
+  border-bottom: 1px solid var(--light-gray);
 }
 
 :host([noform]) textarea{

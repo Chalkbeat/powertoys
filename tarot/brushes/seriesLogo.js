@@ -28,6 +28,9 @@ class SeriesLogoBrush extends ImageBrush {
     <style>
     :host {
       display: block;
+      margin: var(--spacing) 0;
+      padding: var(--spacing) 0;
+      border-bottom: 1px solid var(--light-gray);
     }
     </style>
     <label>Series logo:</label>
