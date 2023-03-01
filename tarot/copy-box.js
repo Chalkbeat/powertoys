@@ -24,7 +24,7 @@ textarea:focus {
 }
 
 textarea::selection {
-  background: currentColor;
+  background: black;
   color: white;
 }
 
