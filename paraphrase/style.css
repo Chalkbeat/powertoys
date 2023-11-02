@@ -1,0 +1,76 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --teal: #178287;
+  --light-teal: #9CD1D4;
+  --peach: #F79C75;
+  --light-peach: #F1CEBF;
+  --purple: #855279;
+  --light-purple: #B575BB;
+  --gold: #AC8E4C;
+  --yellow: #FFD373;
+  --blue: #1B6383;
+  --light-blue: #A1C8DA;
+  --gray: #828282;
+
+  --sans: 'Barlow Condensed', Tahoma, sans-serif;
+  --serif: 'IBM Plex Serif', Georgia, serif;
+
+  --foreground: black;
+  --background: white;
+  --accent: var(--teal);
+
+  font-family: var(--sans);
+
+  --spacing: 4px;
+  --light-gray: white;
+
+  background: #F8F8F8;
+}
+
+html {
+  height: 100%;
+  padding: 16px;
+}
+
+a {
+  color: var(--teal);
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header header"
+    "input output"
+    "footer footer";
+
+  & header {
+    text-align: center;
+    grid-area: header;
+  }
+
+  & section {
+    display: flex;
+    flex-direction: column;
+
+    & textarea, & copy-box {
+      flex: 1;
+      width: 100%;
+      resize: none;
+      border: 1px solid black;
+      background: white;
+      font-family: monospace;
+    }
+  }
+
+  & footer {
+    grid-area: footer;
+  }
+}
