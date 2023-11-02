@@ -1,4 +1,4 @@
-import "commonmark";
+import "https://unpkg.com/commonmark@0.29.3/dist/commonmark.js";
 import "./copy-box.js";
 
 var input = document.querySelector(".input textarea");
