@@ -3,6 +3,7 @@ import "./copy-box.js";
 
 var input = document.querySelector(".input textarea");
 var output = document.querySelector(".output copy-box");
+var preview = document.querySelector(".preview-box");
 
 var parser = new commonmark.Parser();
 var renderer = new commonmark.HtmlRenderer();
@@ -12,4 +13,5 @@ input.addEventListener("input", function() {
   var parsed = parser.parse(markdown);
   var html = renderer.render(parsed);
   output.value = html;
+  preview.innerHTML = html;
 });

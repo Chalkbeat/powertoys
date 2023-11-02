@@ -44,12 +44,12 @@ body {
   margin: 0;
   display: grid;
   gap: 16px;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: auto 1fr auto;
   grid-template-areas:
-    "header header"
-    "input output"
-    "footer footer";
+    "header header header"
+    "input output preview"
+    "footer footer footer";
 
   & header {
     text-align: center;
@@ -59,18 +59,36 @@ body {
   & section {
     display: flex;
     flex-direction: column;
+    max-height: 100%;
 
-    & textarea, & copy-box {
-      flex: 1;
+    & textarea, & copy-box, .preview-box {
+      flex: 1 1 0;
       width: 100%;
       resize: none;
       border: 1px solid black;
       background: white;
       font-family: monospace;
     }
+
+    .preview-box {
+      font-family: var(--serif);
+      overflow: scroll;
+    }
   }
 
   & footer {
     grid-area: footer;
   }
+}
+
+h1 {
+  font-size: 36px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 18px;
 }
