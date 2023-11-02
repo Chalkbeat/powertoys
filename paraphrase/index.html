@@ -4,14 +4,36 @@
     <meta charset="utf-8">
     <title>Tarot : Chalkbeat's social card generator</title>
     <meta name="viewport" content="width=device-width">
+    <script>
+      // use sync XHR to load an external import map
+      // browsers do not currently support external sources
+      // but we don't have templating, and would like to be able to vendor freely
+      // do not use this on user-facing code, it's terrible perf
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "./vendor/import_map.json", false);
+      xhr.send();
+
+      var map = JSON.parse(xhr.responseText);
+      // normalize their locations
+      var base = new URL("./vendor/", window.location).toString();
+      if (map.imports) for (var k in map.imports) {
+        var url = new URL(map.imports[k], base);
+        map.imports[k] = url.toString();
+      }
+      var importmap = document.createElement("script");
+      importmap.setAttribute("type", "importmap");
+      importmap.toggleAttribute("generated");
+      importmap.innerHTML = JSON.stringify(map, null, 2);
+      document.head.append(importmap);
+    </script>
     <!-- <script type="importmap" src="./vendor/import_map.json"></script> -->
-    <script type="importmap">
+    <!-- <script>
       {
         "imports": {
           "https://unpkg.com/": "./vendor/unpkg.com/"
         }
       }
-    </script>
+    </script> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600&family=IBM+Plex+Serif:wght@400;700&display=swap" rel="stylesheet">
