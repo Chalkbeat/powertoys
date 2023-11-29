@@ -85,12 +85,22 @@ body {
 
 h1 {
   font-size: 36px;
+  font-weight: normal;
+  margin-top: 0;
 }
 
 h2 {
   font-size: 24px;
+  font-weight: normal;
+  margin-top: 0;
 }
 
 h3 {
   font-size: 18px;
+  font-weight: normal;
+  margin-top: 0;
+}
+
+.preview {
+  font-family: "Barlow Condensed";
 }
