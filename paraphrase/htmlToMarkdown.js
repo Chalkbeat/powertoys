@@ -12,6 +12,7 @@ function recurse(node) {
         break;
 
       case "P":
+      case "BR":
       case "UL":
         if (node.getAttribute("role") != "presentation") converted += "\n\n";
         converted += recurse(node);
