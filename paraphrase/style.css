@@ -51,7 +51,7 @@ body {
     "input output preview"
     "footer footer footer";
 
-  & header {
+  & header, & footer {
     text-align: center;
     grid-area: header;
   }
@@ -61,6 +61,7 @@ body {
     flex-direction: column;
     max-height: 100%;
     min-width: 0;
+    gap: 4px;
 
     & textarea, & copy-box, .preview-box {
       flex: 1 1 0;
@@ -75,32 +76,29 @@ body {
     .preview-box {
       font-family: var(--serif);
       max-width: 100%;
+      border: none;
+
+      & h1 {
+        font-size: 36px;
+        font-weight: normal;
+        margin-top: 0;
+      }
+
+      & h2 {
+        font-size: 24px;
+        font-weight: normal;
+        margin-top: 0;
+      }
+
+      & h3 {
+        font-size: 18px;
+        font-weight: normal;
+        margin-top: 0;
+      }
     }
   }
 
   & footer {
     grid-area: footer;
   }
-}
-
-h1 {
-  font-size: 36px;
-  font-weight: normal;
-  margin-top: 0;
-}
-
-h2 {
-  font-size: 24px;
-  font-weight: normal;
-  margin-top: 0;
-}
-
-h3 {
-  font-size: 18px;
-  font-weight: normal;
-  margin-top: 0;
-}
-
-.preview {
-  font-family: "Barlow Condensed";
 }
