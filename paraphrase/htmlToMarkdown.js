@@ -1,4 +1,4 @@
-function recurse(node, settings = { bullet: "*" }) {
+function recurse(node, settings = { listDepth: 0, bullet: "* " }) {
   var converted = "";
   for (var node of node.childNodes) {
     switch (node.tagName) {
@@ -13,17 +13,28 @@ function recurse(node, settings = { bullet: "*" }) {
 
       case "P":
       case "BR":
-      case "UL":
         if (node.getAttribute("role") != "presentation") converted += "\n\n";
         converted += recurse(node, settings);
         break;
 
+      case "UL":
+        converted += recurse(node, {
+          listDepth: settings.listDepth + 1,
+          bullet: "* "
+        });
+        break;
+
       case "OL":
-        converted += recurse(node, { ...settings, bullet: "1." });
+        converted += recurse(node, { 
+          listDepth: settings.listDepth + 1,
+          bullet: "1. "
+        });
         break;
 
       case "LI":
-        converted += `\n${settings.bullet} ${recurse(node, settings)}`;
+        var { bullet } = settings;
+        var padding = " ".repeat(bullet.length).repeat(settings.listDepth - 1);
+        converted += `${padding}${bullet}${recurse(node, settings)}\n`;
         break;
 
       case "A":
