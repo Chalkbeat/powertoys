@@ -8,7 +8,7 @@ function recurse(node, settings = { listDepth: 0, bullet: "* " }) {
       case "H4":
       case "H5":
         var level = node.tagName.match(/\d+/) * 1;
-        converted += `${"".padStart(level, "#")} ${recurse(node, settings)}\n\n`;
+        converted += `${"#".repeat(level)} ${recurse(node, settings)}\n\n`;
         break;
 
       case "P":
@@ -62,9 +62,6 @@ function recurse(node, settings = { listDepth: 0, bullet: "* " }) {
         }
         if (node.style.fontWeight * 1 > 400) {
           nodeStack.push(document.createElement("b"));
-        }
-        if (node.style.textDecoration == "underline") {
-          nodeStack.push(document.createElement("u"));
         }
         var span = document.createElement("span");
         var tail = nodeStack.reduce((acc, n) => acc.append(n) || n, span);
