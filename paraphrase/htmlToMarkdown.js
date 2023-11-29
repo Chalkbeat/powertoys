@@ -1,7 +1,7 @@
 var template = document.createElement("template");
 
 export function convert(html) {
-  template.innerHTML = html;
+  template.innerHTML = html.trim();
   var walker = document.createTreeWalker(template.content);
   var converted = "";
   while (walker.nextNode()) {
@@ -27,24 +27,24 @@ export function convert(html) {
         break;
 
       case "A":
-        converted += `[${node.textContent}](${node.href})`;
+        converted += `[${convert(node.innerHTML)}](${node.href})`;
         walker.nextSibling();
         break;
 
       // case "B":
       // case "STRONG":
-      //   converted += `**${convert(node)}**`;
+      //   converted += `**${convert(node.innerHTML)}**`;
       //   walker.nextSibling();
       //   break;
 
       // case "I":
       // case "EM":
-      //   converted += `*${convert(node)}*`;
+      //   converted += `*${convert(node.innerHTML)}*`;
       //   walker.nextSibling();
       //   break;
 
       // case "U":
-      //   converted += `_${convert(node)}_`;
+      //   converted += `_${convert(node.innerHTML)}_`;
       //   walker.nextSibling();
       //   break;
 
@@ -54,5 +54,5 @@ export function convert(html) {
         }
     }
   }
-  return converted;
+  return converted.replace(/^\s+$/gm, "").replace(/[\r\n]{2,}/g, "\n\n").trim();
 }
