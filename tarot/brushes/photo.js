@@ -7,7 +7,6 @@ class PhotoBrush extends Brush {
 :host {
   display: block;
   margin: var(--spacing) 0;
-  padding: var(--spacing) 0;
   border-bottom: 1px dotted var(--light-gray);
   --show-tint: none;
 }
