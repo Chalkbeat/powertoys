@@ -11,7 +11,7 @@ export default class ImageBrush extends Brush {
     this.width = 0;
     this.height = 0;
     this.buffer = document.createElement("canvas");
-    this.context = this.buffer.getContext("2d");
+    this.context = this.buffer.getContext("2d", { willReadFrequently: true });
   }
 
   static observedAttributes = ["x", "y", "src", "width", "height", "recolor", "align"];

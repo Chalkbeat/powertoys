@@ -9,6 +9,7 @@ class PhotoBrush extends Brush {
   margin: var(--spacing) 0;
   padding: var(--spacing) 0;
   border-bottom: 1px dotted var(--light-gray);
+  --show-tint: none;
 }
 
 [as=credit] {
@@ -27,11 +28,24 @@ class PhotoBrush extends Brush {
 }
 
 .tint-controls {
-  display: none;
+  display: var(--show-tint);
+}
+
+:host([tintable]) {
+  --show-tint: block;
 }
 </style>
 <label for="photo-upload">Photo block:</label>
 <input type="file" id="photo-upload" as="file" accept="image/*">
+
+<label for="photo-gravity">Alignment</label>
+<select as="gravity" id="photo-gravity">
+  <option selected value="center">Center</option>
+  <option value="n">North</option>
+  <option value="s">South</option>
+  <option value="e">East</option>
+  <option value="w">West</option>
+</select>
 
 <input as="credit" placeholder="Photo credit">
 
@@ -51,12 +65,13 @@ class PhotoBrush extends Brush {
     this.elements.file.addEventListener("change", this.onUpload);
     this.elements.tinted.addEventListener("change", this.invalidate);
     this.elements.credit.addEventListener("input", this.invalidate);
+    this.elements.gravity.addEventListener("input", this.invalidate);
     this.image = null;
     this.x = 0;
     this.y = 0;
     this.width = 1;
     this.height = 1;
-    this.tint = "accent";
+    this.tint = "backgroundAlt";
     this.buffer = document.createElement("canvas");
     this.context = this.buffer.getContext("2d");
   }
@@ -139,8 +154,22 @@ class PhotoBrush extends Brush {
         width = height * imageAspect;
       }
       // assume we're anchoring in the center for now
+      var gravity = this.elements.gravity.value;
       var xOffset = (width - layout.width) / 2;
       var yOffset = (height - layout.height) / 2;
+      switch (gravity) {
+        case "n":
+          yOffset = 0;
+          break;
+        case "s":
+          yOffset = height - layout.height;
+          break;
+        case "e":
+          xOffset = 0;
+          break;
+        case "w":
+          xOffset = width - layout.width;
+      }
       var x = layout.x - xOffset;
       var y = layout.y - yOffset;
 

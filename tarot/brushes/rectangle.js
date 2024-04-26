@@ -11,7 +11,7 @@
 import Brush from "./brush.js";
 import { getThemed } from "../defs.js";
 
-class RectangleBrush extends Brush {
+export class RectangleBrush extends Brush {
 
   static observedAttributes = ["x", "y", "width", "height", "fill"];
   attributeChangedCallback(attr, was, value) {
@@ -40,7 +40,7 @@ class RectangleBrush extends Brush {
 
   getLayout(context) {
     var { canvas } = context;
-    var { x = 0, y = 0, width = canvas.width, height = canvas.height } = this;
+    var { x = 0, y = 0, width = 1, height = 1 } = this;
     var [top, left] = this.denormalize(canvas, [x, y]);
     var [w, h] = this.denormalize(canvas, [width, height]);
     return new DOMRect(left, top, w, h);

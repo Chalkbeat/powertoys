@@ -23,6 +23,7 @@ export var colors = {
 
 export var sizes = {
   default: { canvas: [1200, 628] },
+  arc: { canvas: [3000, 1680], fontScaling: 3, logoScaling: 3 },
   ig: { canvas: [1080, 1080] },
   igs: { canvas: [1080, 1920], fontScaling: 1.3, logoScaling: 1.5 }
 }
@@ -79,7 +80,7 @@ export function getThemed(theme, shade) {
 var swatch = document.createElement("canvas");
 swatch.width = 1;
 swatch.height = 1;
-var context = swatch.getContext("2d");
+var context = swatch.getContext("2d", { willReadFrequently: true });
 var rgbCache = {};
 
 export function getThemedRGB(theme, shade) {
@@ -105,6 +106,7 @@ import "./brushes/seriesLogo.js";
 import "./brushes/text.js";
 import "./brushes/verticalStack.js";
 import "./brushes/verticalSpacer.js";
+import "./brushes/patternSquares.js";
 
 var templateCache = {};
 
