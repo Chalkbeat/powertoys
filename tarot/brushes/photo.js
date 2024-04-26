@@ -11,6 +11,10 @@ class PhotoBrush extends Brush {
   --show-tint: none;
 }
 
+.container > * {
+  margin: 4px 0;
+}
+
 [as=credit] {
   display: block;
   width: 100%;
@@ -33,7 +37,9 @@ class PhotoBrush extends Brush {
 :host([tintable]) {
   --show-tint: block;
 }
+
 </style>
+<div class="container">
 <label for="photo-upload">Photo block:</label>
 <input type="file" id="photo-upload" as="file" accept="image/*">
 
@@ -54,6 +60,7 @@ class PhotoBrush extends Brush {
 </div>
 
 <div class="warnings" as="warning"></div>
+</div>
   `;
 
   static boundMethods = ["onUpload", "invalidate"];
