@@ -59,7 +59,7 @@ class LogoBrush extends Brush {
     context.font = `${textSize}px "${fonts.sans}"`;
     context.textAlign = "left";
     var em = context.measureText("M").width;
-    var padding = { x: .5 * em, y: .3 * em };
+    var padding = { x: .75 * em, y: .3 * em };
 
     var [ selected ] = this.elements.bureau.selectedOptions;
     var { vertical, bureau } = selected.dataset;
@@ -134,6 +134,20 @@ class LogoBrush extends Brush {
     context.fillStyle = "white";
     context.fillText(vertical.toUpperCase(), x + padding.x, y + padding.y + textSize + 2);
 
+  }
+
+  persist() {
+    var [selected] = this.elements.bureau.selectedOptions;
+    return [ selected.dataset.vertical, selected.dataset.bureau ];
+  }
+
+  restore([vertical, bureau]) {
+    console.log(vertical, bureau);
+    for (var option of this.elements.bureau.querySelectorAll("option")) {
+      if (option.dataset.vertical == vertical && option.dataset.bureau == bureau) {
+        this.elements.bureau.value = option.value;
+      }
+    }
   }
 }
 
