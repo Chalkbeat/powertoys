@@ -55,32 +55,27 @@ class LogoBrush extends Brush {
   }
 
   getLayout(context, config) {
-    var padding = { x: 20, y: 8 };
-    var [ selected ] = this.elements.bureau.selectedOptions;
-    var { vertical, bureau } = selected.dataset;
-    var showLabel = false;
     var textSize = 36 * config.logoScaling;
     context.font = `${textSize}px "${fonts.sans}"`;
     context.textAlign = "left";
+    var em = context.measureText("M").width;
+    var padding = { x: .5 * em, y: .3 * em };
+
+    var [ selected ] = this.elements.bureau.selectedOptions;
+    var { vertical, bureau } = selected.dataset;
     var verticalWidth = context.measureText(vertical.toUpperCase()).width;
-    var width = verticalWidth = verticalWidth + padding.x * config.logoScaling * 2.5;
-    var height = textSize + (padding.y * config.logoScaling);
+    var width = verticalWidth = verticalWidth + padding.x + em;
+    var height = textSize + padding.y * 2;
     var bureauWidth = 0;
     if (bureau) {
       bureauWidth = context.measureText(bureau.toUpperCase()).width;
-      bureauWidth += padding.x * config.logoScaling;
+      bureauWidth += padding.x + em;
       width += bureauWidth;
     }
 
     var x = this.project(this.x, context.canvas.width);
-    var y = this.project(this.y, context.canvas.height);
     x -= width * 0.5;
-    y =
-      this.align == "top"
-        ? y
-        : this.align == "bottom"
-        ? y - height
-        : y - height * 0.5;
+    var y = this.project(this.y, context.canvas.height);
 
     var layout = new DOMRect(x, y, width, height);
     Object.assign(layout, {
@@ -89,7 +84,8 @@ class LogoBrush extends Brush {
       bureau,
       textSize,
       bureauWidth,
-      verticalWidth
+      verticalWidth,
+      em
     });
     return layout;
   }
@@ -105,37 +101,38 @@ class LogoBrush extends Brush {
       y,
       width,
       height,
-      verticalWidth
+      verticalWidth,
+      em
     } = layout;
 
     var [vColor, bColor] = brands[vertical];
 
     context.font = `${textSize}px "${fonts.sans}"`;
     context.textAlign = "left";
-    context.textBaseline = "alphabetic";
+    context.textBaseline = "bottom";
 
     //draw the bureau pennant, if it exists
     if (bureau) {
       context.fillStyle = bColor;
       context.beginPath();
       context.moveTo(x, y);
-      context.lineTo(x + width + padding.x, y)
-      context.lineTo(x + width, y + height);
+      context.lineTo(x + width, y)
+      context.lineTo(x + width - .75 * em, y + height);
       context.lineTo(x, y + height);
       context.fill();
       context.fillStyle = "white";
-      context.fillText(bureau.toUpperCase(), x + verticalWidth + padding.x * .5, y + textSize);
+      context.fillText(bureau.toUpperCase(), x + verticalWidth + padding.x * .5, y + padding.y + textSize + 2);
     }
 
     context.beginPath();
     context.moveTo(x, y);
     context.lineTo(x + verticalWidth, y)
-    context.lineTo(x + verticalWidth - padding.x, y + height);
+    context.lineTo(x + verticalWidth - .75 * em, y + height);
     context.lineTo(x, y + height);
     context.fillStyle = vColor;
     context.fill();
     context.fillStyle = "white";
-    context.fillText(vertical.toUpperCase(), x + padding.x, y + textSize);
+    context.fillText(vertical.toUpperCase(), x + padding.x, y + padding.y + textSize + 2);
 
   }
 }
