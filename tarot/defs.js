@@ -13,12 +13,24 @@ export var colors = {
   gray: "#828282",
   black: "#393939",
   white: "#F8F8F8",
-  // Votebeat colors
   mauve: "#554359",
-  vbYellow: "#FCE487",
   orange: "#F5B362",
   green: "#ABD299",
+  // Chalkbeat brand colors
+  cbLogo: "#3666EC",
+  cbBureau: "#03938F",
+  cbLightBlue: "#92C5D4",
+  cbDarkGreen: "#042B29",
+  // Votebeat colors
+  vbLogo: "#CC50A4",
+  vbBureau: "#824F9D",
+  vbYellow: "#FCE487",
   vbBlue: "#8EAAC2"
+};
+
+export var fonts = {
+  sans: "Figtree",
+  serif: "Crimson Pro"
 };
 
 export var sizes = {
@@ -39,13 +51,13 @@ export var themes = {
     colors.darkTeal,
     colors.teal,
   ],
-  dark: [colors.black, colors.gray, colors.white, colors.teal, colors.teal],
+  dark: [colors.black, colors.gray, colors.white, colors.white, colors.teal],
   chalkbeat: [
-    colors.darkTeal,
-    colors.teal,
     colors.white,
-    colors.yellow,
-    colors.yellow,
+    colors.gray,
+    colors.black,
+    colors.darkBlue,
+    colors.cbLogo
   ],
   purple: [
     colors.purple,
@@ -68,7 +80,7 @@ var themeIndices = {
   backgroundAlt: 1,
   text: 2,
   textAlt: 3,
-  accent: 4,
+  accent: 4
 };
 
 export function getThemed(theme, shade) {
@@ -94,19 +106,6 @@ export function getThemedRGB(theme, shade) {
   }
   return rgbCache[background];
 }
-
-/*
-For more on how templates relate to drawing, see brushes/readme.rst.
-*/
-import "./brushes/image.js";
-import "./brushes/logo.js";
-import "./brushes/photo.js";
-import "./brushes/rectangle.js";
-import "./brushes/seriesLogo.js";
-import "./brushes/text.js";
-import "./brushes/verticalStack.js";
-import "./brushes/verticalSpacer.js";
-import "./brushes/patternSquares.js";
 
 var templateCache = {};
 

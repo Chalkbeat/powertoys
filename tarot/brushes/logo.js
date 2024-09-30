@@ -1,7 +1,12 @@
-import ImageBrush from "./image.js";
-import { getThemed, getThemedRGB } from "../defs.js";
+import Brush from "./brush.js";
+import { colors, getThemed, fonts } from "../defs.js";
 
-class LogoBrush extends ImageBrush {
+var brands = {
+  Chalkbeat: [colors.cbLogo, colors.cbBureau],
+  Votebeat: [colors.vbLogo, colors.vbBureau]
+};
+
+class LogoBrush extends Brush {
   static template = `
 <style>
 :host {
@@ -13,16 +18,16 @@ class LogoBrush extends ImageBrush {
 </style>
 <label>Logo</logo>
 <select as="bureau">
-  <option value="">No bureau, only logo</option>
-  <option>Chicago</option>
-  <option>Colorado</option>
-  <option>Detroit</option>
-  <option>Indiana</option>
-  <option>Newark</option>
-  <option>New York</option>
-  <option>Philadelphia</option>
-  <option>Tennessee</option>
-  <option>Votebeat</option>
+  <option selected data-vertical="Chalkbeat" data-bureau="">Chalkbeat</option>
+  <option data-vertical="Chalkbeat" data-bureau="Chicago">Chalkbeat Chicago</option>
+  <option data-vertical="Chalkbeat" data-bureau="Colorado">Chalkbeat Colorado</option>
+  <option data-vertical="Chalkbeat" data-bureau="Detroit">Chalkbeat Detroit</option>
+  <option data-vertical="Chalkbeat" data-bureau="Indiana">Chalkbeat Indiana</option>
+  <option data-vertical="Chalkbeat" data-bureau="Newark">Chalkbeat Newark</option>
+  <option data-vertical="Chalkbeat" data-bureau="New York">Chalkbeat New York</option>
+  <option data-vertical="Chalkbeat" data-bureau="Philadelphia">Chalkbeat Philadelphia</option>
+  <option data-vertical="Chalkbeat" data-bureau="Tennessee">Chalkbeat Tennessee</option>
+  <option data-vertical="Votebeat">Votebeat</option>
 </select>
   `;
 
@@ -31,15 +36,6 @@ class LogoBrush extends ImageBrush {
     this.x = 0;
     this.y = 0;
     this.color = "text";
-
-    this.image = new Image();
-    this.image.src = "./assets/logo-dark.png";
-    this.image.onload = this.invalidate;
-
-    this.votebeat = new Image();
-    this.votebeat.src = "./assets/Vb-Logo-1Color-Black-V2.png";
-    this.votebeat.onload = this.invalidate;
-
     this.elements.bureau.addEventListener("change", this.invalidate);
   }
 
@@ -59,32 +55,25 @@ class LogoBrush extends ImageBrush {
   }
 
   getLayout(context, config) {
-    var bWidth = 0;
-    var bureau = this.elements.bureau.value;
-    var isVB = bureau == "Votebeat";
+    var padding = { x: 20, y: 8 };
+    var [ selected ] = this.elements.bureau.selectedOptions;
+    var { vertical, bureau } = selected.dataset;
     var showLabel = false;
-    if (bureau && !isVB) {
-      bureau = bureau.toUpperCase();
-      context.textAlign = "left";
-      context.font = `italic 24px "Barlow Condensed"`;
-      var measurement = context.measureText(bureau);
-      bWidth = measurement.width;
-      showLabel = true;
+    var textSize = 36 * config.logoScaling;
+    context.font = `${textSize}px "${fonts.sans}"`;
+    context.textAlign = "left";
+    var verticalWidth = context.measureText(vertical.toUpperCase()).width;
+    var width = verticalWidth = verticalWidth + padding.x * config.logoScaling * 2.5;
+    var height = textSize + (padding.y * config.logoScaling);
+    var bureauWidth = 0;
+    if (bureau) {
+      bureauWidth = context.measureText(bureau.toUpperCase()).width;
+      bureauWidth += padding.x * config.logoScaling;
+      width += bureauWidth;
     }
-
-    // hardcode image values
-    var logoWidth = (isVB ? 148 : 124) * config.logoScaling;
-    var logoHeight = (isVB ? 36 : 40) * config.logoScaling;
-    var textSize = 24 * config.logoScaling;
-    var logo = isVB ? this.votebeat : this.image;
 
     var x = this.project(this.x, context.canvas.width);
     var y = this.project(this.y, context.canvas.height);
-    // var [x, y] = this.denormalize(context.canvas, [this.x, this.y]);
-    var bSpacing = bWidth ? 10 : 0;
-    var width = Math.max(logoWidth, bWidth);
-    var height = showLabel ? logoHeight + bSpacing + textSize : logoHeight;
-    var textX = x;
     x -= width * 0.5;
     y =
       this.align == "top"
@@ -92,18 +81,15 @@ class LogoBrush extends ImageBrush {
         : this.align == "bottom"
         ? y - height
         : y - height * 0.5;
-    var textY = y + logoHeight + bSpacing;
 
     var layout = new DOMRect(x, y, width, height);
     Object.assign(layout, {
+      padding,
+      vertical,
       bureau,
       textSize,
-      textX,
-      textY,
-      logo,
-      logoWidth,
-      logoHeight,
-      showLabel,
+      bureauWidth,
+      verticalWidth
     });
     return layout;
   }
@@ -111,27 +97,46 @@ class LogoBrush extends ImageBrush {
   draw(context, config) {
     var layout = this.getLayout(context, config);
     var {
-      logo,
       textSize,
-      textX,
-      textY,
-      logoWidth,
-      logoHeight,
+      vertical,
       bureau,
-      showLabel,
+      padding,
+      x,
+      y,
+      width,
+      height,
+      verticalWidth
     } = layout;
-    var color = getThemed(config.theme, this.color);
-    var rgb = getThemedRGB(config.theme, this.color);
-    this.tintBuffer(logo, logoWidth, logoHeight, rgb);
-    context.drawImage(this.buffer, layout.x, layout.y);
 
-    if (showLabel) {
-      context.fillStyle = color;
-      context.textAlign = "center";
-      context.textBaseline = "top";
-      context.font = `italic ${textSize}px "Barlow Condensed"`;
-      context.fillText(bureau, textX, textY);
+    var [vColor, bColor] = brands[vertical];
+
+    context.font = `${textSize}px "${fonts.sans}"`;
+    context.textAlign = "left";
+    context.textBaseline = "alphabetic";
+
+    //draw the bureau pennant, if it exists
+    if (bureau) {
+      context.fillStyle = bColor;
+      context.beginPath();
+      context.moveTo(x, y);
+      context.lineTo(x + width + padding.x, y)
+      context.lineTo(x + width, y + height);
+      context.lineTo(x, y + height);
+      context.fill();
+      context.fillStyle = "white";
+      context.fillText(bureau.toUpperCase(), x + verticalWidth + padding.x * .5, y + textSize);
     }
+
+    context.beginPath();
+    context.moveTo(x, y);
+    context.lineTo(x + verticalWidth, y)
+    context.lineTo(x + verticalWidth - padding.x, y + height);
+    context.lineTo(x, y + height);
+    context.fillStyle = vColor;
+    context.fill();
+    context.fillStyle = "white";
+    context.fillText(vertical.toUpperCase(), x + padding.x, y + textSize);
+
   }
 }
 

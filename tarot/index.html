@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600&family=IBM+Plex+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Figtree:ital,wght@0,300..900;1,300..900&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Figtree:ital,wght@0,300..900;1,300..900&display=swap">
     <link rel="stylesheet" href="./style.css">
   </head>
   <body>
@@ -51,20 +52,17 @@
           Select a theme:
 
           <div class="themes">
-            <input type="radio" name="theme" value="light" id="theme-light" checked=checked>
-            <label for="theme-light">Light <theme-icon theme="light"></theme-icon></label>
-
-            <input type="radio" name="theme" value="dark" id="theme-dark">
-            <label for="theme-dark">Dark <theme-icon theme="dark"></theme-icon></label>
-
-            <input type="radio" name="theme" value="chalkbeat" id="theme-chalkbeat">
+            <input type="radio" name="theme" value="chalkbeat" id="theme-chalkbeat" checked=checked>
             <label for="theme-chalkbeat">Chalkbeat <theme-icon theme="chalkbeat"></theme-icon></label>
+
+            <input type="radio" name="theme" value="votebeat" id="theme-votebeat">
+            <label for="theme-votebeat">Votebeat <theme-icon theme="votebeat"></theme-icon></label>
 
             <input type="radio" name="theme" value="purple" id="theme-purple">
             <label for="theme-purple">Taro <theme-icon theme="purple"></theme-icon></label>
 
-            <input type="radio" name="theme" value="votebeat" id="theme-votebeat">
-            <label for="theme-votebeat">Votebeat <theme-icon theme="votebeat"></theme-icon></label>
+            <input type="radio" name="theme" value="dark" id="theme-dark">
+            <label for="theme-dark">Dark CB<theme-icon theme="dark"></theme-icon></label>
           </div>
 
         </div>

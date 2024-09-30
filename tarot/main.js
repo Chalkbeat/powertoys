@@ -2,6 +2,19 @@ import { sizes, colors, getThemed, getTemplate } from "./defs.js";
 import "./theme-icon.js";
 import "./copy-box.js";
 
+/*
+For more on how templates relate to drawing, see brushes/readme.rst.
+*/
+import "./brushes/image.js";
+import "./brushes/logo.js";
+import "./brushes/photo.js";
+import "./brushes/rectangle.js";
+import "./brushes/seriesLogo.js";
+import "./brushes/text.js";
+import "./brushes/verticalStack.js";
+import "./brushes/verticalSpacer.js";
+import "./brushes/patternSquares.js";
+
 var $ = (s, d = document) => d.querySelectorAll(s);
 $.one = (s, d = document) => d.querySelector(s);
 

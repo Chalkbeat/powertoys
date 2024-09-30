@@ -11,8 +11,8 @@
   --light-blue: #A1C8DA;
   --gray: #828282;
 
-  --sans: 'Barlow Condensed', Tahoma, sans-serif;
-  --serif: 'IBM Plex Serif', Georgia, serif;
+  --sans: 'Figtree', Tahoma, sans-serif;
+  --serif: 'Crimson Pro', Georgia, serif;
 
   --foreground: black;
   --background: white;
@@ -90,6 +90,7 @@ main {
 .theme-group .themes {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  text-transform: uppercase;
 }
 
 .theme-group input {

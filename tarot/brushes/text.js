@@ -10,7 +10,7 @@
 */
 
 import Brush from "./brush.js";
-import { getThemed } from "../defs.js";
+import { getThemed, fonts } from "../defs.js";
 
 class TextBrush extends Brush {
   static template = `
@@ -114,7 +114,7 @@ textarea {
       anchor = "top left",
       color = "text",
       size = 24,
-      font = "Barlow Condensed"
+      font = fonts.serif
     } = this;
     var [x, y] = this.denormalize(canvas, [this.x || 0, this.y || 0]);
 
