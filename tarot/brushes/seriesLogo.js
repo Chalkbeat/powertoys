@@ -4,9 +4,9 @@ import { getThemedRGB } from "../defs.js";
 var nullRect = new DOMRect(0, 0, 0, 0);
 
 var logoCache = {};
-var loadLogo = function(url) {
+var loadLogo = function (url) {
   if (!logoCache[url]) {
-    logoCache[url] = new Promise(function(ok, fail) {
+    logoCache[url] = new Promise(function (ok, fail) {
       var image = new Image();
       image.src = url;
       image.onload = () => ok(image);
@@ -14,16 +14,18 @@ var loadLogo = function(url) {
     });
   }
   return logoCache[url];
-}
+};
 
 const logos = {
   fp: { label: "First Person", url: "./assets/Cb-first-person-logo-teal.png" },
   hit: { label: "How I Teach", url: "./assets/Cb-how-i-teach-logo-teal.png" },
-  atb: { label: "After the Bell", url: "./assets/Cb-after-the-bell-logo-teal.png" }
+  atb: {
+    label: "After the Bell",
+    url: "./assets/Cb-after-the-bell-logo-teal.png"
+  }
 };
 
 class SeriesLogoBrush extends ImageBrush {
-
   static template = `
     <style>
     :host {
@@ -35,11 +37,15 @@ class SeriesLogoBrush extends ImageBrush {
     <label>Series logo:</label>
     <select as="series">
       <option selected value="">None</option>
-      ${Object.entries(logos).map(([key, value]) => `
+      ${Object.entries(logos)
+        .map(
+          ([key, value]) => `
       <option value="${key}">${value.label}</option>
-      `).join("\n")}
+      `
+        )
+        .join("\n")}
     </select>
-  `
+  `;
 
   static boundMethods = ["onSeries"];
 
@@ -47,7 +53,7 @@ class SeriesLogoBrush extends ImageBrush {
     super();
     this.elements.series.addEventListener("change", this.onSeries);
     this.x = this.y = this.dx = this.dy = 0;
-    this.scale = .5;
+    this.scale = 0.5;
   }
 
   async onSeries() {
@@ -99,7 +105,6 @@ class SeriesLogoBrush extends ImageBrush {
     this.tintBuffer(this.image, layout.width, layout.height, rgb);
     context.drawImage(this.buffer, layout.x, layout.y);
   }
-
 }
 
 SeriesLogoBrush.define("series-logo");

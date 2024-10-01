@@ -12,7 +12,6 @@ import Brush from "./brush.js";
 import { getThemed } from "../defs.js";
 
 export class RectangleBrush extends Brush {
-
   static observedAttributes = ["x", "y", "width", "height", "fill"];
   attributeChangedCallback(attr, was, value) {
     switch (attr) {

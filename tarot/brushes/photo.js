@@ -122,7 +122,7 @@ class PhotoBrush extends Brush {
     var [x, y] = this.denormalize(context.canvas, [this.x, this.y]);
     var [width, height] = this.denormalize(context.canvas, [
       this.width,
-      this.height,
+      this.height
     ]);
     return new DOMRect(x, y, width, height);
   }
@@ -197,14 +197,13 @@ class PhotoBrush extends Brush {
       if (credit) {
         context.textAlign = "right";
         context.textBaseline = "bottom";
-        context.font = `italic 20px "Barlow Condensed"`;        
+        context.font = `italic 20px "Barlow Condensed"`;
         context.fillStyle = "white";
         context.strokeStyle = "black";
         context.lineWidth = 6;
         context.strokeText(credit, layout.right - 20, layout.bottom - 10);
         context.fillText(credit, layout.right - 20, layout.bottom - 10);
       }
-
     } else {
       // add placeholder label
       context.fillStyle = getThemed(config.theme, "background");

@@ -60,8 +60,17 @@ textarea {
   }
 
   static observedAttributes = [
-    "x", "y", "padding", "width", "value",
-    "anchor", "font", "size", "color", "bold", "italic"
+    "x",
+    "y",
+    "padding",
+    "width",
+    "value",
+    "anchor",
+    "font",
+    "size",
+    "color",
+    "bold",
+    "italic"
   ];
   attributeChangedCallback(attr, was, value) {
     switch (attr) {
@@ -88,7 +97,7 @@ textarea {
   }
 
   set value(v) {
-    return this.elements.input.value = v;
+    return (this.elements.input.value = v);
   }
 
   get alt() {
@@ -120,11 +129,11 @@ textarea {
 
     // generate bounding rectangle
     var padding = this.unpackPadding(this.padding || "");
-    
+
     var [width] = this.denormalize(canvas, [this.width || 1, 1]);
     // subtract horizontal padding
     width -= padding[1] + padding[3];
-    
+
     // reflow text
     var { fontScaling = 1 } = config;
     size *= fontScaling;
@@ -164,8 +173,12 @@ textarea {
     var vAnchor = (anchor.match(/top|bottom/) || ["middle"])[0];
     var lineHeight = size * 1.2;
     var textHeight = lines.length * lineHeight;
-    var textY = vAnchor == "middle" ? y - textHeight * .5 :
-      vAnchor == "bottom" ? y - textHeight : y;
+    var textY =
+      vAnchor == "middle"
+        ? y - textHeight * 0.5
+        : vAnchor == "bottom"
+        ? y - textHeight
+        : y;
     textY += padding[0];
     var textX = x + padding[3];
 
@@ -187,12 +200,17 @@ textarea {
   draw(context, config) {
     var { theme } = config;
     var { color = "text" } = this;
-    var { lines, textX, textY, lineHeight, anchor } = this.getLayout(context, config);
+    var { lines, textX, textY, lineHeight, anchor } = this.getLayout(
+      context,
+      config
+    );
 
     context.textBaseline = "top";
     context.textAlign = anchor;
     context.fillStyle = getThemed(theme, color);
-    lines.forEach((line, i) => context.fillText(line, textX, textY + i * lineHeight));
+    lines.forEach((line, i) =>
+      context.fillText(line, textX, textY + i * lineHeight)
+    );
 
     // update word counts
     var characters = this.value.length;

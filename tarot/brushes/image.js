@@ -2,7 +2,6 @@ import Brush from "./brush.js";
 import { getThemed, getThemedRGB } from "../defs.js";
 
 export default class ImageBrush extends Brush {
-
   constructor() {
     super();
     this.image = null;
@@ -14,7 +13,15 @@ export default class ImageBrush extends Brush {
     this.context = this.buffer.getContext("2d", { willReadFrequently: true });
   }
 
-  static observedAttributes = ["x", "y", "src", "width", "height", "recolor", "align"];
+  static observedAttributes = [
+    "x",
+    "y",
+    "src",
+    "width",
+    "height",
+    "recolor",
+    "align"
+  ];
   attributeChangedCallback(attr, was, value) {
     switch (attr) {
       case "src":
@@ -30,7 +37,7 @@ export default class ImageBrush extends Brush {
         break;
 
       // boolean
-        // this[attr] = typeof value != "undefined";
+      // this[attr] = typeof value != "undefined";
 
       default:
         this[attr] = Number(value);
@@ -45,9 +52,7 @@ export default class ImageBrush extends Brush {
     }
     var width = this.width || this.image.naturalWidth;
     var height = this.height || this.image.naturalHeight;
-    x -= this.align == "left" ? 0 
-      : this.align == "right" ? width 
-      : width / 2;
+    x -= this.align == "left" ? 0 : this.align == "right" ? width : width / 2;
     y -= height / 2;
     return new DOMRect(x, y, width, height);
   }
@@ -56,13 +61,13 @@ export default class ImageBrush extends Brush {
     // apply to the buffer
     this.buffer.width = width;
     this.buffer.height = height;
-    var context = this.context
+    var context = this.context;
     context.drawImage(image, 0, 0, width, height);
     var bitmap = context.getImageData(0, 0, width, height);
     for (var i = 0; i < bitmap.data.length; i += 4) {
       bitmap.data[i] = r;
-      bitmap.data[i+1] = g;
-      bitmap.data[i+2] = b;
+      bitmap.data[i + 1] = g;
+      bitmap.data[i + 2] = b;
     }
     context.putImageData(bitmap, 0, 0);
   }
@@ -72,13 +77,18 @@ export default class ImageBrush extends Brush {
     var layout = this.getLayout(context);
     if (this.recolor && layout.height) {
       var components = getThemedRGB(config.theme, this.recolor);
-      this.tintBuffer(this.image, layout.width, layout.height, components)
+      this.tintBuffer(this.image, layout.width, layout.height, components);
       context.drawImage(this.buffer, layout.x, layout.y);
     } else {
-      context.drawImage(this.image, layout.x, layout.y, layout.width, layout.height);
+      context.drawImage(
+        this.image,
+        layout.x,
+        layout.y,
+        layout.width,
+        layout.height
+      );
     }
   }
-
 }
 
 ImageBrush.define("image-brush");

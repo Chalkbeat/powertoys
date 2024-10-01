@@ -38,7 +38,7 @@ export var sizes = {
   arc: { canvas: [3000, 1680], fontScaling: 3, logoScaling: 3 },
   ig: { canvas: [1080, 1080] },
   igs: { canvas: [1080, 1920], fontScaling: 1.3, logoScaling: 1.5 }
-}
+};
 
 // themes are specified as an array of items, typically in these categories
 // you can also specify a color directly instead of an index
@@ -49,7 +49,7 @@ export var themes = {
     colors.gray,
     colors.black,
     colors.darkTeal,
-    colors.teal,
+    colors.teal
   ],
   dark: [colors.black, colors.gray, colors.white, colors.white, colors.teal],
   chalkbeat: [
@@ -64,7 +64,7 @@ export var themes = {
     colors.lightPurple,
     colors.white,
     colors.yellow,
-    colors.yellow,
+    colors.yellow
   ],
   votebeat: [
     colors.white,
@@ -111,7 +111,7 @@ var templateCache = {};
 
 export async function getTemplate(path) {
   if (!templateCache[path]) {
-    templateCache[path] = fetch(`templates/${path}.html`).then(r => r.text());
+    templateCache[path] = fetch(`templates/${path}.html`).then((r) => r.text());
   }
   return templateCache[path];
 }

@@ -1,7 +1,6 @@
 import Brush from "./brush.js";
 
 class VerticalSpacer extends Brush {
-
   constructor() {
     super();
     this.x = this.y = 0;
@@ -12,14 +11,12 @@ class VerticalSpacer extends Brush {
   static observedAttributes = ["x", "y", "width", "height", "padding"];
   attributeChangedCallback(attr, was, value) {
     switch (attr) {
-
       case "padding":
         this[attr] = value;
         break;
 
       default:
         this[attr] = Number(value);
-
     }
   }
 
@@ -36,18 +33,23 @@ class VerticalSpacer extends Brush {
     var layout = this.getLayout(context);
     var padding = this.unpackPadding(this.padding);
     var children = Array.from(this.children);
-    var layouts = children.map(c => c.getLayout(context, config));
+    var layouts = children.map((c) => c.getLayout(context, config));
     var zipped = children.map((c, i) => [c, layouts[i]]);
     var totalHeight = layouts.reduce((acc, l) => acc + l.height, 0);
     var vPadding = padding[0] + padding[2];
-    var totalSpace = layout.height - vPadding - totalHeight;;
+    var totalSpace = layout.height - vPadding - totalHeight;
     var spacing = totalSpace / (children.length - 1);
     if (debug) {
       context.fillStyle = "yellow";
       context.fillRect(layout.x, layout.y, layout.width, layout.height);
       context.fillStyle = "cyan";
       context.fillRect(layout.x, layout.y, layout.width, padding[0]);
-      context.fillRect(layout.x, layout.y + layout.height - padding[2], layout.width, padding[2])
+      context.fillRect(
+        layout.x,
+        layout.y + layout.height - padding[2],
+        layout.width,
+        padding[2]
+      );
     }
     context.save();
     context.translate(layout.x, layout.y + padding[0]);
@@ -68,9 +70,11 @@ class VerticalSpacer extends Brush {
 
   get alt() {
     var children = Array.from(this.children);
-    return children.map(c => c.alt).filter(t => t).join("\n");
+    return children
+      .map((c) => c.alt)
+      .filter((t) => t)
+      .join("\n");
   }
-
 }
 
 VerticalSpacer.define("vertical-spacer");

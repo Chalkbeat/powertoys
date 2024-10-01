@@ -59,12 +59,12 @@ class LogoBrush extends Brush {
     context.font = `${textSize}px "${fonts.sans}"`;
     context.textAlign = "left";
     var em = context.measureText("M").width;
-    var padding = { x: .75 * em, y: .3 * em };
+    var padding = { x: 0.75 * em, y: 0.3 * em };
 
-    var [ selected ] = this.elements.bureau.selectedOptions;
+    var [selected] = this.elements.bureau.selectedOptions;
     var { vertical, bureau } = selected.dataset;
     var verticalWidth = context.measureText(vertical.toUpperCase()).width;
-    var width = verticalWidth = verticalWidth + padding.x + em;
+    var width = (verticalWidth = verticalWidth + padding.x + em);
     var height = textSize + padding.y * 2;
     var bureauWidth = 0;
     if (bureau) {
@@ -116,35 +116,45 @@ class LogoBrush extends Brush {
       context.fillStyle = bColor;
       context.beginPath();
       context.moveTo(x, y);
-      context.lineTo(x + width, y)
-      context.lineTo(x + width - .75 * em, y + height);
+      context.lineTo(x + width, y);
+      context.lineTo(x + width - 0.75 * em, y + height);
       context.lineTo(x, y + height);
       context.fill();
       context.fillStyle = "white";
-      context.fillText(bureau.toUpperCase(), x + verticalWidth + padding.x * .5, y + padding.y + textSize + 2);
+      context.fillText(
+        bureau.toUpperCase(),
+        x + verticalWidth + padding.x * 0.5,
+        y + padding.y + textSize + 2
+      );
     }
 
     context.beginPath();
     context.moveTo(x, y);
-    context.lineTo(x + verticalWidth, y)
-    context.lineTo(x + verticalWidth - .75 * em, y + height);
+    context.lineTo(x + verticalWidth, y);
+    context.lineTo(x + verticalWidth - 0.75 * em, y + height);
     context.lineTo(x, y + height);
     context.fillStyle = vColor;
     context.fill();
     context.fillStyle = "white";
-    context.fillText(vertical.toUpperCase(), x + padding.x, y + padding.y + textSize + 2);
-
+    context.fillText(
+      vertical.toUpperCase(),
+      x + padding.x,
+      y + padding.y + textSize + 2
+    );
   }
 
   persist() {
     var [selected] = this.elements.bureau.selectedOptions;
-    return [ selected.dataset.vertical, selected.dataset.bureau ];
+    return [selected.dataset.vertical, selected.dataset.bureau];
   }
 
   restore([vertical, bureau]) {
     console.log(vertical, bureau);
     for (var option of this.elements.bureau.querySelectorAll("option")) {
-      if (option.dataset.vertical == vertical && option.dataset.bureau == bureau) {
+      if (
+        option.dataset.vertical == vertical &&
+        option.dataset.bureau == bureau
+      ) {
         this.elements.bureau.value = option.value;
       }
     }

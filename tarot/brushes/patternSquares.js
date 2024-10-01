@@ -1,7 +1,6 @@
 import { RectangleBrush } from "./rectangle.js";
 import { getThemed } from "../defs.js";
 
-
 function smoothstep(value, low = 0, high = 1) {
   return clamp((value - low) / (high - low));
 }
@@ -13,7 +12,6 @@ function clamp(value, high = 1, low = 0) {
 }
 
 class PatternSquares extends RectangleBrush {
-
   static template = `
 <style>
 :host {
@@ -41,7 +39,7 @@ class PatternSquares extends RectangleBrush {
     var { theme } = config;
     var { width, height } = context.canvas;
     var focalX = width * this.elements.focalX.valueAsNumber;
-    var focalY = height * .5;
+    var focalY = height * 0.5;
     var spread = this.elements.spread.valueAsNumber;
     context.globalCompositeOperation = "normal";
     context.fillStyle = getThemed(theme, "accent");
@@ -50,16 +48,15 @@ class PatternSquares extends RectangleBrush {
     for (var x = 0; x <= width; x += BLOCK_SIZE) {
       for (var y = 0; y < height; y += BLOCK_SIZE) {
         var distance = Math.sqrt((x - focalX) ** 2 + (y - focalY) ** 2);
-        var lerp = smoothstep(distance, width * spread, width * (.5 + spread));
+        var lerp = smoothstep(distance, width * spread, width * (0.5 + spread));
         // context.globalAlpha = lerp;
         if (Math.random() < lerp) {
-          var b = BLOCK_SIZE * .2 + (BLOCK_SIZE * .8 * lerp) + 1;
+          var b = BLOCK_SIZE * 0.2 + BLOCK_SIZE * 0.8 * lerp + 1;
           context.fillRect(x, y, b, b);
         }
       }
     }
   }
-
 }
 
 window.customElements.define("pattern-squares", PatternSquares);

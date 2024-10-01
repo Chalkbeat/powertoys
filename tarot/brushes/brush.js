@@ -67,7 +67,7 @@ export default class Brush extends HTMLElement {
   }
 
   unpackPadding(input) {
-    input = input.trim().split(" ").map(Number)
+    input = input.trim().split(" ").map(Number);
     var [pt, pr, pb, pl] = input;
     var padding = input;
     switch (input.length) {
@@ -101,7 +101,7 @@ export default class Brush extends HTMLElement {
       var [_, numeric, unit] = measurement.match(/\s*([\d\.]+)\s*(px|%)?/);
       numeric = Number(numeric);
       if (unit == "%") {
-        return numeric / 100 * domain;
+        return (numeric / 100) * domain;
       } else if (unit == "px") {
         return numeric;
       } else {

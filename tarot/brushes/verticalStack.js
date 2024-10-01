@@ -5,7 +5,6 @@ VerticalStack replaces the "follows" attribute, merging it into the former Group
 */
 
 class VerticalStack extends Brush {
-
   static template = `<slot as="slot"></slot>`;
 
   static observedAttributes = ["x", "y", "dx", "dy"];
@@ -17,7 +16,7 @@ class VerticalStack extends Brush {
   getLayout(context, config) {
     // find child bounds
     var children = this.elements.slot.assignedElements();
-    var layouts = children.map(c => c.getLayout(context, config));
+    var layouts = children.map((c) => c.getLayout(context, config));
     var height = layouts.reduce((acc, l) => acc + l.height, 0);
 
     // find own bounds
@@ -27,8 +26,12 @@ class VerticalStack extends Brush {
     var [x, y] = this.denormalize(context.canvas, [normalX, normalY]);
     x += this.dx || 0;
     y += this.dy || 0;
-    var top = anchor == "middle" ? y - (height * .5):
-      anchor == "bottom" ? y - height : y;
+    var top =
+      anchor == "middle"
+        ? y - height * 0.5
+        : anchor == "bottom"
+        ? y - height
+        : y;
 
     var delta = top - height;
 
@@ -44,7 +47,7 @@ class VerticalStack extends Brush {
     context.save();
     // move to the starting point
     context.translate(x, top);
-    for (var [ child, position ] of pairs) {
+    for (var [child, position] of pairs) {
       child.draw(context, config);
       context.translate(0, position.height);
     }
@@ -53,7 +56,10 @@ class VerticalStack extends Brush {
 
   get alt() {
     var children = this.elements.slot.assignedElements();
-    return children.map(c => c.alt).filter(t => t).join("\n");
+    return children
+      .map((c) => c.alt)
+      .filter((t) => t)
+      .join("\n");
   }
 }
 
