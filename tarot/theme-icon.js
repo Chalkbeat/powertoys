@@ -24,7 +24,7 @@ class ThemeIcon extends HTMLElement {
   }
 
   generateSwatch(theme) {
-    var palette = [...new Set(themes[theme])];
+    var palette = [...new Set(themes[theme].colors)];
     this.container.replaceChildren(...palette.map(color => {
       var block = document.createElement("i");
       block.className = "block";

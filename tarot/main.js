@@ -20,12 +20,13 @@ $.one = (s, d = document) => d.querySelector(s);
 
 var canvas = $.one(".preview canvas");
 var context = canvas.getContext("2d");
-var theme = "light";
 
 var sizeSelect = $.one("select.size");
 var templateSelect = $.one("select.template");
 var form = $.one(".form form");
 var altDisplay = $.one(".alt-display");
+
+var theme = $.one(".theme-group input:checked").value;
 
 var scheduled = false;
 var scheduleUpdate = function() {

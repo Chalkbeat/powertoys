@@ -66,6 +66,14 @@ export default class Brush extends HTMLElement {
     // your rendering code should go here
   }
 
+  updateConfig(config) {
+    // code that may or may not trigger a re-render
+    // by default, just falls through
+    for (var c of Array.from(this.children)) {
+      if (c.updateConfig) c.updateConfig(config);
+    }
+  }
+
   unpackPadding(input) {
     input = input.trim().split(" ").map(Number);
     var [pt, pr, pb, pl] = input;

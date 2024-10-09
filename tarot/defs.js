@@ -22,10 +22,13 @@ export var colors = {
   cbLightBlue: "#92C5D4",
   cbDarkGreen: "#042B29",
   // Votebeat colors
-  vbLogo: "#CC50A4",
-  vbBureau: "#824F9D",
+  vbLogo: "#7E509E",
+  vbBureau: "#331B3D",
   vbYellow: "#FCE487",
-  vbBlue: "#8EAAC2"
+  vbBlue: "#8EAAC2",
+  // Healthbeat colors
+  hbLogo: "#F25A4D",
+  hbBureau: "#DD405E"
 };
 
 export var fonts = {
@@ -44,35 +47,66 @@ export var sizes = {
 // you can also specify a color directly instead of an index
 // [ background, alternate background, text, alternate text, accent ]
 export var themes = {
-  light: [
-    colors.white,
-    colors.gray,
-    colors.black,
-    colors.darkTeal,
-    colors.teal
-  ],
-  dark: [colors.black, colors.gray, colors.white, colors.white, colors.teal],
-  chalkbeat: [
-    colors.white,
-    colors.gray,
-    colors.black,
-    colors.darkBlue,
-    colors.cbLogo
-  ],
-  purple: [
-    colors.purple,
-    colors.lightPurple,
-    colors.white,
-    colors.yellow,
-    colors.yellow
-  ],
-  votebeat: [
-    colors.white,
-    colors.gray,
-    colors.black,
-    colors.mauve,
-    colors.orange
-  ]
+  cbLight: {
+    colors: [
+      colors.white,
+      colors.gray,
+      colors.black,
+      colors.black,
+      colors.cbBureau
+    ],
+    vertical: "Chalkbeat"
+  },
+  cbDark: {
+    colors: [
+      colors.black,
+      colors.gray,
+      colors.white,
+      colors.white,
+      colors.teal
+    ],
+    vertical: "Chalkbeat"
+  },
+  vbLight: {
+    colors: [
+      colors.white,
+      colors.gray,
+      colors.black,
+      colors.black,
+      colors.vbLogo
+    ],
+    vertical: "Votebeat"
+  },
+  vbDark: {
+    colors: [
+      colors.black,
+      colors.gray,
+      colors.white,
+      colors.white,
+      colors.orange
+    ],
+    vertical: "Votebeat"
+  },
+  hbLight: {
+    colors: [
+      colors.white,
+      colors.gray,
+      colors.black,
+      colors.black,
+      colors.hbLogo
+    ],
+    vertical: "Healthbeat"
+  },
+  hbDark: {
+    colors: [
+      colors.black,
+      colors.gray,
+      colors.white,
+      colors.white,
+      colors.hbBureau
+    ],
+    vertical: "Healthbeat"
+  }
 };
 
 var themeIndices = {
@@ -84,7 +118,7 @@ var themeIndices = {
 };
 
 export function getThemed(theme, shade) {
-  var palette = themes[theme];
+  var palette = themes[theme].colors;
   shade = shade in themeIndices ? themeIndices[shade] : shade;
   return palette[shade] || shade;
 }

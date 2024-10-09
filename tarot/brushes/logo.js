@@ -1,10 +1,17 @@
 import Brush from "./brush.js";
-import { colors, getThemed, fonts } from "../defs.js";
+import { colors, getThemed, fonts, themes } from "../defs.js";
 
 var brands = {
   Chalkbeat: [colors.cbLogo, colors.cbBureau],
-  Votebeat: [colors.vbLogo, colors.vbBureau]
+  Votebeat: [colors.vbLogo, colors.vbBureau],
+  Healthbeat: [colors.hbLogo, colors.hbBureau]
 };
+
+var bureaus = {
+  Chalkbeat: "National|Chicago|Colorado|Detroit|Indiana|Newark|New York|Philadelphia|Tennessee".split("|"),
+  Votebeat: "National|Arizona|Michigan|Pennsylvania|Texas|Wisconsin".split("|"),
+  Healthbeat: "National|New York|Atlanta".split("|")
+}
 
 class LogoBrush extends Brush {
   static template = `
@@ -17,18 +24,7 @@ class LogoBrush extends Brush {
 }
 </style>
 <label>Logo</logo>
-<select as="bureau">
-  <option selected data-vertical="Chalkbeat" data-bureau="">Chalkbeat</option>
-  <option data-vertical="Chalkbeat" data-bureau="Chicago">Chalkbeat Chicago</option>
-  <option data-vertical="Chalkbeat" data-bureau="Colorado">Chalkbeat Colorado</option>
-  <option data-vertical="Chalkbeat" data-bureau="Detroit">Chalkbeat Detroit</option>
-  <option data-vertical="Chalkbeat" data-bureau="Indiana">Chalkbeat Indiana</option>
-  <option data-vertical="Chalkbeat" data-bureau="Newark">Chalkbeat Newark</option>
-  <option data-vertical="Chalkbeat" data-bureau="New York">Chalkbeat New York</option>
-  <option data-vertical="Chalkbeat" data-bureau="Philadelphia">Chalkbeat Philadelphia</option>
-  <option data-vertical="Chalkbeat" data-bureau="Tennessee">Chalkbeat Tennessee</option>
-  <option data-vertical="Votebeat">Votebeat</option>
-</select>
+<select as="bureau"></select>
   `;
 
   constructor() {
@@ -36,6 +32,7 @@ class LogoBrush extends Brush {
     this.x = 0;
     this.y = 0;
     this.color = "text";
+    this.vertical = "";
     this.elements.bureau.addEventListener("change", this.invalidate);
   }
 
@@ -55,14 +52,30 @@ class LogoBrush extends Brush {
   }
 
   getLayout(context, config) {
+    var vertical = themes[config.theme].vertical;
+    // if the vertical changed, then reset that selection
+    if (vertical != this.vertical) {
+      var none = document.createElement("option");
+      none.value = "";
+      none.innerHTML = "Vertical Only";
+      var bureauOptions = bureaus[vertical].map(b => {
+        var option = document.createElement("option");
+        option.innerHTML = b;
+        return option;
+      });
+      bureauOptions.unshift(none);
+      this.elements.bureau.replaceChildren(...bureauOptions);
+      this.elements.bureau.value = "";
+      this.vertical = vertical;
+    }
+
     var textSize = 36 * config.logoScaling;
     context.font = `${textSize}px "${fonts.sans}"`;
     context.textAlign = "left";
     var em = context.measureText("M").width;
     var padding = { x: 0.75 * em, y: 0.3 * em };
 
-    var [selected] = this.elements.bureau.selectedOptions;
-    var { vertical, bureau } = selected.dataset;
+    var bureau = this.elements.bureau.value;
     var verticalWidth = context.measureText(vertical.toUpperCase()).width;
     var width = (verticalWidth = verticalWidth + padding.x + em);
     var height = textSize + padding.y * 2;
