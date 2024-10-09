@@ -171,23 +171,6 @@ class LogoBrush extends Brush {
       y + padding.y + textSize + 2
     );
   }
-
-  persist() {
-    var [selected] = this.elements.bureau.selectedOptions;
-    return [selected.dataset.vertical, selected.dataset.bureau];
-  }
-
-  restore([vertical, bureau]) {
-    console.log(vertical, bureau);
-    for (var option of this.elements.bureau.querySelectorAll("option")) {
-      if (
-        option.dataset.vertical == vertical &&
-        option.dataset.bureau == bureau
-      ) {
-        this.elements.bureau.value = option.value;
-      }
-    }
-  }
 }
 
 LogoBrush.define("logo-brush");
