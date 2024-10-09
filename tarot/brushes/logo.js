@@ -103,6 +103,16 @@ class LogoBrush extends Brush {
     return layout;
   }
 
+  pen(...points) {
+    var path = new Path2D();
+    var first = points.shift();
+    path.moveTo(...first);
+    for (var p of points) {
+      path.lineTo(...p);
+    }
+    return path;
+  }
+
   draw(context, config) {
     var layout = this.getLayout(context, config);
     var {
@@ -127,12 +137,15 @@ class LogoBrush extends Brush {
     //draw the bureau pennant, if it exists
     if (bureau) {
       context.fillStyle = bColor;
-      context.beginPath();
-      context.moveTo(x, y);
-      context.lineTo(x + width, y);
-      context.lineTo(x + width - 0.75 * em, y + height);
-      context.lineTo(x, y + height);
-      context.fill();
+      var right = x + width;
+      var inset = x + width - 0.75 * em;
+      var bottom = y + height;
+      context.fill(this.pen(
+        [x, y],
+        [right, y],
+        [inset, bottom],
+        [x, bottom]
+      ));
       context.fillStyle = "white";
       context.fillText(
         bureau.toUpperCase(),
@@ -141,13 +154,16 @@ class LogoBrush extends Brush {
       );
     }
 
-    context.beginPath();
-    context.moveTo(x, y);
-    context.lineTo(x + verticalWidth, y);
-    context.lineTo(x + verticalWidth - 0.75 * em, y + height);
-    context.lineTo(x, y + height);
+    var right = x + verticalWidth;
+    var inset = x + verticalWidth - 0.75 * em;
+    var bottom = y + height;
     context.fillStyle = vColor;
-    context.fill();
+    context.fill(this.pen(
+      [x, y],
+      [right, y],
+      [inset, bottom],
+      [x, bottom]
+    ));
     context.fillStyle = "white";
     context.fillText(
       vertical.toUpperCase(),
