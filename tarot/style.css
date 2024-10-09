@@ -85,11 +85,15 @@ main {
 .form .select-group,
 .form .theme-group {
   margin: var(--spacing) 0;
+
+  & select {
+    width: 100%;
+  }
 }
 
 .theme-group .themes {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   text-transform: uppercase;
 }
 

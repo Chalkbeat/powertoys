@@ -26,7 +26,8 @@ class TextBrush extends Brush {
 }
 
 textarea {
-  font-family: var(--serif);
+  font-family: var(--sans);
+  font-size: 100%;
   width: 100%;
   resize: vertical;
   padding-bottom: 0;

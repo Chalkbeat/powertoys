@@ -22,9 +22,21 @@ class LogoBrush extends Brush {
   padding: var(--spacing) 0;
   border-bottom: 1px solid var(--light-gray);
 }
+
+.container {
+  display: flex;
+  gap: 16px;
+}
+
+select {
+  min-width: 0;
+  flex: 1;
+}
 </style>
-<label>Logo</logo>
-<select as="bureau"></select>
+<div class="container">
+  <label>Logo</label>
+  <select as="bureau"></select>
+</div>
   `;
 
   constructor() {
