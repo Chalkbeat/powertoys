@@ -206,6 +206,7 @@ class PhotoBrush extends Brush {
         // context.lineWidth = 3;
         // context.strokeText(credit, layout.right - 20, layout.bottom - 10);
         context.fillText(credit, layout.right - 10, layout.bottom - 10);
+        context.shadowColor = null;
       }
     } else {
       // add placeholder label
