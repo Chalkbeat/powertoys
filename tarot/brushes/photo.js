@@ -197,12 +197,15 @@ class PhotoBrush extends Brush {
       if (credit) {
         context.textAlign = "right";
         context.textBaseline = "bottom";
-        context.font = `italic 20px "Barlow Condensed"`;
+        context.font = `20px "Figtree"`;
         context.fillStyle = "white";
-        context.strokeStyle = "black";
-        context.lineWidth = 6;
-        context.strokeText(credit, layout.right - 20, layout.bottom - 10);
-        context.fillText(credit, layout.right - 20, layout.bottom - 10);
+        context.shadowColor = "black";
+        context.shadowBlur = 2;
+        context.shadowOffsetX = context.shadowOffsetY = 2;
+        // context.strokeStyle = "black";
+        // context.lineWidth = 3;
+        // context.strokeText(credit, layout.right - 20, layout.bottom - 10);
+        context.fillText(credit, layout.right - 10, layout.bottom - 10);
       }
     } else {
       // add placeholder label

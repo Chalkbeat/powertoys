@@ -19,14 +19,26 @@ class PatternSquares extends RectangleBrush {
   margin: var(--spacing) 0;
   padding: var(--spacing) 0;
   border-bottom: 1px dotted var(--light-gray);
- 
+}
+
+label {
+  display: flex;
+  white-space: nowrap;
+}
+
+input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
 }
 </style>
-<label for="focal-x">Pattern position:</label>
-<input id="focal-x" as="focalX" type="range" min="0" max="1" step=".01">
+<label>Pattern position:
+  <input as="focalX" type="range" min="0" max="1" step=".01">
+</label>
 
-<label for="spread">Pattern spread:</label>
-<input type="range" id="spread" as="spread" min="0" max=".3" step=".01" value=".1">
+<label>Pattern spread:
+  <input type="range" as="spread" min="0" max=".3" step=".01" value=".1">
+</label>
   `;
 
   constructor() {
