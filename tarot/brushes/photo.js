@@ -16,7 +16,7 @@ class PhotoBrush extends Brush {
 }
 
 [as=credit] {
-  display: block;
+  display: var(--show-credits, block);
   width: 100%;
 }
 
@@ -36,6 +36,10 @@ class PhotoBrush extends Brush {
 
 :host([tintable]) {
   --show-tint: block;
+}
+
+:host([uncredited]) {
+  --show-credits: none;
 }
 
 </style>

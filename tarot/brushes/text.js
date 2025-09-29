@@ -6,6 +6,7 @@
   color="theme index or literal"
   anchor="top|middle|bottom left|center|right"
   width="bounding, doesn't account for offset"
+  font="serif|sans"
 ></text-brush>
 */
 
@@ -85,6 +86,10 @@ textarea {
       case "bold":
       case "italic":
         this[attr] = value !== null;
+        break;
+
+      case "font":
+        this[attr] = value in fonts ? fonts[value] : value;
         break;
 
       default:
